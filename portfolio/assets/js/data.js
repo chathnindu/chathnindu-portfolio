@@ -60,7 +60,7 @@ export const socialLinks = [
 export const heroPills = [
     {
         text: "Join the chaos",
-        href: "#",
+        href: "https://dev.to/",
         position: "top-[15%] left-[5%] md:top-[35%] md:left-[15%]",
         rotation: "-rotate-[15deg] md:-rotate-[45deg]",
         icon: null
@@ -80,7 +80,7 @@ export const heroPills = [
         icon: null
     },
     {
-        text: "Become a client",
+        text: "Hold my CV",
         href: "#",
         position: "top-[75%] left-[10%] md:top-[60%] md:left-[8%]",
         rotation: "-rotate-[5deg] md:rotate-[8deg]",
@@ -174,9 +174,9 @@ export const footerLinks = [
  * General site information
  */
 export const siteMetadata = {
-    title: "chathnindu Portfolio",
-    author: "Chathnindu",
+    title: "chathnindu",
+    author: "chathnindu",
     tagline: "Stay connected for early access to my newest experiments and weird ideas.",
-    copyright: "© 2024 Chathnindu",
+    copyright: "© 2026 chathnindu",
     newsletterCTA: "Sign up for my newsletter"
 };
