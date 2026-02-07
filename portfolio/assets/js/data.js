@@ -39,16 +39,10 @@ export const socialLinks = [
         showInHeader: true
     },
     {
-        platform: "twitter",
-        icon: "fab fa-twitter",
-        url: "#",
+        platform: "linkedin",
+        icon: "fab fa-linkedin",
+        url: "#", // Replace # with your LinkedIn profile URL
         showInHeader: true
-    },
-    {
-        platform: "reddit",
-        icon: "fab fa-reddit-alien",
-        url: "#",
-        showInHeader: false // Only show in footer
     }
 ];
 
@@ -60,7 +54,7 @@ export const socialLinks = [
 export const heroPills = [
     {
         text: "Join the chaos",
-        href: "https://dev.to/",
+        href: "https://discord.gg/googlelabs",
         position: "top-[15%] left-[5%] md:top-[35%] md:left-[15%]",
         rotation: "-rotate-[15deg] md:-rotate-[45deg]",
         icon: null
@@ -73,16 +67,9 @@ export const heroPills = [
         icon: "fab fa-github ml-2"
     },
     {
-        text: "Say hi on Bluesky",
-        href: "https://bsky.app/profile/chathnindu.bsky.social",
-        position: "top-[55%] right-[5%] md:top-[30%] md:right-[5%]",
-        rotation: "rotate-[20deg] md:rotate-[65deg]",
-        icon: null
-    },
-    {
-        text: "Hold my CV",
+        text: "Hold My CV",
         href: "#",
-        position: "top-[75%] left-[10%] md:top-[60%] md:left-[8%]",
+        position: "top-[55%] right-[5%] md:top-[40%] md:right-[8%]",
         rotation: "-rotate-[5deg] md:rotate-[8deg]",
         icon: null,
         isDiv: true // Render as div instead of anchor
@@ -174,9 +161,9 @@ export const footerLinks = [
  * General site information
  */
 export const siteMetadata = {
-    title: "chathnindu",
-    author: "chathnindu",
+    title: "chathnindu Portfolio",
+    author: "Chathnindu",
     tagline: "Stay connected for early access to my newest experiments and weird ideas.",
-    copyright: "© 2026 chathnindu",
+    copyright: "© 2024 Chathnindu",
     newsletterCTA: "Sign up for my newsletter"
 };

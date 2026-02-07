@@ -208,12 +208,8 @@ function renderFooterSocial() {
     const socialContainer = document.getElementById('footer-social');
     if (!socialContainer) return;
 
-    // Show all social links in footer (not just header ones)
-    const footerSocials = socialLinks.filter(social => 
-        ['discord', 'reddit', 'twitter'].includes(social.platform)
-    );
-
-    socialContainer.innerHTML = footerSocials
+    // Show all social links in footer
+    socialContainer.innerHTML = socialLinks
         .map(social => createSocialIcon(social, 'footer'))
         .join('');
 }
