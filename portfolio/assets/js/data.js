@@ -73,8 +73,8 @@ export const heroPills = [
         icon: "fab fa-github ml-2"
     },
     {
-        text: "Say hi on X",
-        href: "#",
+        text: "Say hi on Bluesky",
+        href: "https://bsky.app/profile/chathnindu.bsky.social",
         position: "top-[55%] right-[5%] md:top-[30%] md:right-[5%]",
         rotation: "rotate-[20deg] md:rotate-[65deg]",
         icon: null
