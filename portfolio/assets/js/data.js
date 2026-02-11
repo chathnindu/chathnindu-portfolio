@@ -32,16 +32,11 @@ export const socialLinks = [
         url: "https://github.com/chathnindu",
         showInHeader: true
     },
-    {
-        platform: "discord",
-        icon: "fab fa-discord",
-        url: "#",
-        showInHeader: true
-    },
+
     {
         platform: "linkedin",
         icon: "fab fa-linkedin",
-        url: "https://www.linkedin.com/in/chathnindu/", 
+        url: "https://www.linkedin.com/in/chathnindu/",
         showInHeader: true
     }
 ];
@@ -52,13 +47,7 @@ export const socialLinks = [
  * Position values use Tailwind positioning classes
  */
 export const heroPills = [
-    {
-        text: "Join the chaos",
-        href: "https://discord.gg/googlelabs",
-        position: "top-[15%] left-[5%] md:top-[35%] md:left-[15%]",
-        rotation: "-rotate-[15deg] md:-rotate-[45deg]",
-        icon: null
-    },
+
     {
         text: "Check out my code",
         href: "https://github.com/chathnindu",
