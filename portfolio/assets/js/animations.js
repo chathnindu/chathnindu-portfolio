@@ -18,7 +18,117 @@ export function initAnimations() {
     initLiquidText();
     initProjectBundleWobble();
     initKonamiEasterEgg();
+    initTechStackEffects();
     initCursor();
+}
+
+/**
+ * Unique hover effects for each tech stack card
+ * Each card gets a different cartoon-style animation based on data-effect
+ */
+function initTechStackEffects() {
+    const cards = document.querySelectorAll('.tech-card');
+    if (!cards.length) return;
+
+    cards.forEach(card => {
+        const effect = card.dataset.effect;
+        const emoji = card.querySelector('.tech-emoji');
+
+        card.addEventListener('mouseenter', () => {
+            switch (effect) {
+                case 'spin':
+                    // React: continuous spin like the atom logo
+                    gsap.to(emoji, { rotation: 360, duration: 0.6, ease: "power2.out" });
+                    gsap.to(card, { scale: 1.1, borderColor: '#61DAFB', boxShadow: '0 0 20px rgba(97,218,251,0.4)', duration: 0.3 });
+                    break;
+
+                case 'wiggle':
+                    // Python: snake slither wiggle
+                    gsap.to(emoji, {
+                        keyframes: [
+                            { x: -5, rotation: -10, duration: 0.1 },
+                            { x: 5, rotation: 10, duration: 0.1 },
+                            { x: -3, rotation: -5, duration: 0.1 },
+                            { x: 3, rotation: 5, duration: 0.1 },
+                            { x: 0, rotation: 0, duration: 0.1 }
+                        ]
+                    });
+                    gsap.to(card, { scale: 1.08, borderColor: '#3776AB', boxShadow: '0 0 20px rgba(55,118,171,0.4)', duration: 0.3 });
+                    break;
+
+                case 'shake':
+                    // Django: rock & roll shake
+                    gsap.to(emoji, {
+                        keyframes: [
+                            { y: -8, scaleY: 1.2, duration: 0.1 },
+                            { y: 0, scaleY: 0.9, duration: 0.1 },
+                            { y: -4, scaleY: 1.1, duration: 0.1 },
+                            { y: 0, scaleY: 1, duration: 0.15 }
+                        ]
+                    });
+                    gsap.to(card, { scale: 1.08, borderColor: '#092E20', boxShadow: '0 0 20px rgba(9,46,32,0.4)', duration: 0.3 });
+                    break;
+
+                case 'bubble':
+                    // Flask: lab flask fizz - emoji floats up and down
+                    gsap.to(emoji, {
+                        y: -12,
+                        scale: 1.4,
+                        duration: 0.3,
+                        ease: "back.out(3)",
+                    });
+                    // Create tiny bubbles
+                    for (let i = 0; i < 4; i++) {
+                        const bubble = document.createElement('span');
+                        bubble.textContent = '○';
+                        bubble.style.cssText = `position:absolute;font-size:${8 + Math.random() * 8}px;color:#50F595;pointer-events:none;`;
+                        bubble.style.left = (30 + Math.random() * 40) + '%';
+                        bubble.style.bottom = '30%';
+                        card.appendChild(bubble);
+                        gsap.to(bubble, {
+                            y: -(30 + Math.random() * 30),
+                            opacity: 0,
+                            scale: 0.5,
+                            duration: 0.6 + Math.random() * 0.4,
+                            delay: i * 0.1,
+                            ease: "power1.out",
+                            onComplete: () => bubble.remove()
+                        });
+                    }
+                    gsap.to(card, { scale: 1.08, borderColor: '#50F595', boxShadow: '0 0 20px rgba(80,245,149,0.4)', duration: 0.3 });
+                    break;
+
+                case 'glow':
+                    // Supabase: lightning pulse glow
+                    gsap.to(emoji, { scale: 1.5, duration: 0.15, yoyo: true, repeat: 1 });
+                    gsap.to(card, {
+                        scale: 1.1,
+                        borderColor: '#3ECF8E',
+                        boxShadow: '0 0 30px rgba(62,207,142,0.6), 0 0 60px rgba(62,207,142,0.2)',
+                        duration: 0.3
+                    });
+                    break;
+
+                case 'grow':
+                    // Plus: mystery expand with rotation
+                    gsap.to(emoji, { rotation: 180, scale: 1.6, duration: 0.4, ease: "back.out(2)" });
+                    gsap.to(card, {
+                        scale: 1.12,
+                        borderColor: '#F9ABEA',
+                        boxShadow: '0 0 25px rgba(249,171,234,0.5)',
+                        duration: 0.3
+                    });
+                    break;
+            }
+        });
+
+        card.addEventListener('mouseleave', () => {
+            gsap.to(emoji, { rotation: 0, scale: 1, x: 0, y: 0, scaleX: 1, scaleY: 1, duration: 0.4, ease: "elastic.out(1, 0.4)" });
+            gsap.to(card, { scale: 1, borderColor: '', boxShadow: '', duration: 0.3 });
+        });
+    });
+
+    console.log("✅ Tech stack hover effects initialized");
 }
 
 /**
