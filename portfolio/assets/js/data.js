@@ -15,9 +15,8 @@
  */
 export const navigation = [
     { label: "About", href: "#about" },
-    { label: "Projects", href: "#projects" },
-    { label: "Contact", href: "#contact" },
-    { label: "Blog", href: "#blog" }
+    { label: "Projects", href: "https://github.com/chathnindu?tab=repositories" },
+    { label: "Contact", href: "#contact" }
 ];
 
 /**
@@ -32,7 +31,6 @@ export const socialLinks = [
         url: "https://github.com/chathnindu",
         showInHeader: true
     },
-
     {
         platform: "linkedin",
         icon: "fab fa-linkedin",
@@ -47,21 +45,20 @@ export const socialLinks = [
  * Position values use Tailwind positioning classes
  */
 export const heroPills = [
-
     {
-        text: "Check out my code",
+        text: "see what i broke on github 💀",
         href: "https://github.com/chathnindu",
         position: "top-[35%] left-[25%] md:top-[20%] md:left-[42%]",
         rotation: "rotate-[10deg] md:rotate-[75deg]",
         icon: "fab fa-github ml-2"
     },
     {
-        text: "Hold My CV",
+        text: "grab my résumé ✌️",
         href: "#",
         position: "top-[55%] right-[5%] md:top-[40%] md:right-[8%]",
         rotation: "-rotate-[5deg] md:rotate-[8deg]",
         icon: null,
-        isDiv: true // Render as div instead of anchor
+        isDiv: true
     }
 ];
 
@@ -79,14 +76,13 @@ export const techStack = [
 
 /**
  * PROJECTS DATA
- * Portfolio projects with descriptions and links
- * Add your real projects here!
+ * Portfolio projects (kept for reference, main CTA links to GitHub)
  */
 export const projects = [
     {
         id: 1,
         title: "Neural Network Visualizer",
-        description: "Interactive 3D visualization of neural networks using Three.js and WebGL. Real-time training animations and layer inspection.",
+        description: "Interactive 3D visualization of neural networks using Three.js and WebGL.",
         githubUrl: "https://github.com/chathnindu/neural-viz",
         tags: ["Three.js", "React", "WebGL"],
         featured: true
@@ -94,55 +90,21 @@ export const projects = [
     {
         id: 2,
         title: "AI Code Assistant",
-        description: "CLI tool that uses LLMs to help debug and refactor code. Supports Python, JavaScript, and TypeScript.",
+        description: "CLI tool that uses LLMs to help debug and refactor code.",
         githubUrl: "https://github.com/chathnindu/ai-assistant",
         tags: ["Python", "OpenAI", "CLI"],
         featured: true
-    },
-    {
-        id: 3,
-        title: "Real-time Collaboration Board",
-        description: "Multiplayer whiteboard with WebSocket synchronization. Built with Node.js and Canvas API.",
-        githubUrl: "https://github.com/chathnindu/collab-board",
-        tags: ["Node.js", "WebSocket", "Canvas"],
-        featured: true
-    },
-    {
-        id: 4,
-        title: "Portfolio Generator",
-        description: "Static site generator for developer portfolios with Markdown support and custom themes.",
-        githubUrl: "https://github.com/chathnindu/portfolio-gen",
-        tags: ["Node.js", "Markdown", "SSG"],
-        featured: false
-    },
-    {
-        id: 5,
-        title: "Weather Dashboard",
-        description: "Beautiful weather app with location search, 7-day forecasts, and animated weather icons.",
-        githubUrl: "https://github.com/chathnindu/weather-dash",
-        tags: ["React", "API", "Tailwind"],
-        featured: false
-    },
-    {
-        id: 6,
-        title: "Task Automation Toolkit",
-        description: "Collection of Python scripts for automating common development workflows and file operations.",
-        githubUrl: "https://github.com/chathnindu/auto-toolkit",
-        tags: ["Python", "Automation", "CLI"],
-        featured: false
     }
 ];
 
 /**
  * FOOTER LINKS DATA
- * Additional footer navigation links
+ * Cleaned up to match real pages
  */
 export const footerLinks = [
     { label: "About", href: "#about" },
-    { label: "Products", href: "#products" },
-    { label: "Privacy", href: "#privacy" },
-    { label: "Terms", href: "#terms" },
-    { label: "Help", href: "#help" }
+    { label: "GitHub", href: "https://github.com/chathnindu" },
+    { label: "LinkedIn", href: "https://www.linkedin.com/in/chathnindu/" }
 ];
 
 /**
@@ -152,7 +114,7 @@ export const footerLinks = [
 export const siteMetadata = {
     title: "chathnindu Portfolio",
     author: "Chathnindu",
-    tagline: "Stay connected for newest experiments and weird ideas.",
+    tagline: "i occasionally build cool stuff. wanna see it before everyone else? 👀",
     copyright: "© 2026 Chathnindu",
-    newsletterCTA: "Sign up for my newsletter"
+    newsletterCTA: "grab my résumé ✌️"
 };

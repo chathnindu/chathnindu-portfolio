@@ -285,13 +285,10 @@ function init() {
 
     try {
         // Render all components
-        renderHeaderNavigation();
-        renderHeaderSocial();
         renderHeroPills();
         renderFooterSocial();
         renderFooterNavigation();
         renderTechStack();
-        renderProjects(true); // Only show featured projects
         renderFooterLinks();
 
         // 3D Background & Animations
