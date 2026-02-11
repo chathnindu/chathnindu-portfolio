@@ -19,6 +19,9 @@ import {
     siteMetadata
 } from './data.js';
 
+import { initBackground } from './background.js';
+import { initAnimations } from './animations.js';
+
 /**
  * ============================================================================
  * REUSABLE COMPONENT TEMPLATES
@@ -32,7 +35,7 @@ import {
  */
 function createNavLink(navItem) {
     return `
-        <a class="font-display font-medium text-black hover:opacity-70 transition-opacity" 
+        <a class="font-display font-medium text-black dark:text-white hover:opacity-70 transition-opacity" 
            href="${navItem.href}">
             ${navItem.label}
         </a>
@@ -106,14 +109,14 @@ function createProjectCard(project) {
     // Generate tag badges
     const tagBadges = project.tags
         .map(tag => `
-            <span class="px-3 py-1 text-xs font-display font-medium bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-full border border-gray-300 dark:border-gray-700">
+            <span class="px-3 py-1 text-xs font-display font-medium bg-white/20 text-black dark:text-white rounded-full border border-white/10">
                 ${tag}
             </span>
         `)
         .join('');
 
     return `
-        <div class="group relative bg-white dark:bg-gray-900 border-4 border-black dark:border-white rounded-lg p-6 hover:translate-x-1 hover:translate-y-1 transition-transform shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(255,255,255,1)] hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] dark:hover:shadow-[4px_4px_0px_0px_rgba(255,255,255,1)]">
+        <div class="group relative glass rounded-xl p-6 hover:-translate-y-2 transition-transform duration-300">
             <!-- Project Title -->
             <h3 class="font-display font-bold text-xl md:text-2xl mb-3 text-black dark:text-white">
                 ${project.title}
@@ -246,7 +249,7 @@ function renderProjects(featuredOnly = false) {
     const projectsContainer = document.getElementById('projects-grid');
     if (!projectsContainer) return;
 
-    const projectsToShow = featuredOnly 
+    const projectsToShow = featuredOnly
         ? projects.filter(p => p.featured)
         : projects;
 
@@ -290,6 +293,10 @@ function init() {
         renderTechStack();
         renderProjects(true); // Only show featured projects
         renderFooterLinks();
+
+        // 3D Background & Animations
+        initBackground();
+        initAnimations();
 
         console.log('✅ Portfolio initialized successfully!');
     } catch (error) {

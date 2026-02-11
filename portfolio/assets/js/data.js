@@ -41,7 +41,7 @@ export const socialLinks = [
     {
         platform: "linkedin",
         icon: "fab fa-linkedin",
-        url: "#", // Replace # with your LinkedIn profile URL
+        url: "https://www.linkedin.com/in/chathnindu/", 
         showInHeader: true
     }
 ];
@@ -163,7 +163,7 @@ export const footerLinks = [
 export const siteMetadata = {
     title: "chathnindu Portfolio",
     author: "Chathnindu",
-    tagline: "Stay connected for early access to my newest experiments and weird ideas.",
-    copyright: "© 2024 Chathnindu",
+    tagline: "Stay connected for newest experiments and weird ideas.",
+    copyright: "© 2026 Chathnindu",
     newsletterCTA: "Sign up for my newsletter"
 };

@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>chathnindu Portfolio</title>
-    
+
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com" rel="preconnect"/>
-    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
-    
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;600&display=swap"
+        rel="stylesheet" />
+
     <!-- Font Awesome -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
-    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
+    <!-- Three.js & GSAP -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
     <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
@@ -25,12 +33,9 @@
                     colors: {
                         primary: "#F9ABEA",
                         "background-light": "#FFFFFF",
-                        "background-dark": "#121212",
-                        "blob-yellow": "#FFFF00",
-                        "blob-blue": "#6B8AF8",
-                        "blob-orange": "#FF8C54",
-                        "blob-pink": "#FBACF6",
-                        "blob-lime": "#D0F555",
+                        "background-dark": "#0a0a0a", // Darker background for better contrast
+                        "glass-light": "rgba(255, 255, 255, 0.7)",
+                        "glass-dark": "rgba(20, 20, 20, 0.7)",
                         "pill-green": "#50F595",
                     },
                     fontFamily: {
@@ -40,75 +45,110 @@
                     borderRadius: {
                         DEFAULT: "0.5rem",
                     },
+                    backdropBlur: {
+                        xs: '2px',
+                    }
                 },
             },
         };
     </script>
-    
+
     <!-- Custom Animations & Styles -->
     <style>
-        @keyframes float {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            33% { transform: translate(10px, -20px) rotate(2deg); }
-            66% { transform: translate(-10px, 10px) rotate(-1deg); }
-            100% { transform: translate(0, 0) rotate(0deg); }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .animate-float-slow { animation: float 8s ease-in-out infinite; }
-        .animate-float-medium { animation: float 6s ease-in-out infinite; }
-        .animate-float-fast { animation: float 4s ease-in-out infinite; }
-        .blob-shape {
-            border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Glassmorphism Utilities */
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
     </style>
 </head>
-<body class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-body overflow-x-hidden min-h-screen flex flex-col">
-    
+
+<body
+    class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-body overflow-x-hidden min-h-screen flex flex-col">
+
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"
+        class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-40 dark:opacity-60"></canvas>
+
     <!-- Header Navigation -->
-    <header class="bg-primary h-14 md:h-16 flex items-center justify-between px-4 md:px-12 sticky top-0 z-50 shadow-sm md:shadow-none">
+    <header
+        class="h-14 md:h-16 flex items-center justify-between px-4 md:px-12 sticky top-0 z-50 glass transition-all duration-300">
         <!-- Desktop Navigation (populated by JS) -->
         <nav id="desktop-nav" class="hidden md:flex space-x-8">
             <!-- Dynamic navigation links will be inserted here -->
         </nav>
-        
+
         <!-- Mobile Menu Toggle -->
-        <div class="md:hidden text-black p-2 cursor-pointer hover:bg-black/5 rounded-full">
+        <div
+            class="md:hidden text-black dark:text-white p-2 cursor-pointer hover:bg-black/5 dark:hover:bg-white/10 rounded-full">
             <i class="fas fa-bars text-xl"></i>
         </div>
-        
+
         <!-- Logo (Centered) -->
-        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2">
-            <i class="fas fa-flask text-black text-lg md:text-xl"></i>
-            <span class="font-display font-bold text-lg md:text-xl text-black">chathnindu</span>
+        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2 cursor-pointer group">
+            <img src="assets/icon/avatar.png" alt="Logo"
+                class="h-8 w-8 md:h-10 md:w-10 object-contain group-hover:scale-110 transition-transform duration-300">
+            <span class="font-display font-bold text-lg md:text-xl text-black dark:text-white">chathnindu</span>
         </div>
-        
+
         <!-- Social Links (populated by JS) -->
-        <div id="header-social" class="flex items-center space-x-4 md:space-x-6 text-black">
+        <div id="header-social" class="flex items-center space-x-4 md:space-x-6 text-black dark:text-white">
             <!-- Dynamic social icons will be inserted here -->
         </div>
     </header>
-    
-    <!-- Hero Section with Floating Blobs -->
-    <main class="flex-grow relative w-full h-[600px] md:h-[800px] overflow-hidden bg-background-light dark:bg-background-dark">
-        <!-- Decorative Floating Blobs -->
-        <div class="absolute -bottom-10 -left-10 w-40 h-40 md:w-96 md:h-96 bg-blob-yellow rounded-full blur-sm opacity-90 animate-float-slow z-0"></div>
-        <div class="absolute top-[40%] left-[10%] md:bottom-10 md:left-[20%] w-32 h-32 md:w-80 md:h-80 bg-blob-blue rounded-full opacity-90 animate-float-medium z-10 blob-shape"></div>
-        <div class="absolute bottom-10 right-[10%] md:bottom-20 md:left-[45%] w-36 h-36 md:w-80 md:h-80 bg-blob-orange rounded-[3rem] rotate-12 opacity-90 animate-float-slow z-0"></div>
-        <div class="absolute top-16 right-[-20px] md:top-20 md:right-[25%] w-28 h-28 md:w-72 md:h-72 bg-blob-pink rounded-[2rem] rotate-45 opacity-80 animate-float-fast z-0"></div>
-        <div class="absolute -bottom-5 -right-5 w-40 h-40 md:w-[30rem] md:h-[30rem] bg-blob-lime rounded-[4rem] rotate-12 opacity-90 animate-float-medium z-10"></div>
-        <div class="absolute top-20 left-[10%] md:top-10 md:left-[35%] w-24 h-24 md:w-64 md:h-64 bg-blob-blue rounded-full opacity-100 z-0" style="clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);"></div>
-        
+
+    <!-- Hero Section -->
+    <main class="flex-grow relative w-full h-[600px] md:h-[800px] flex items-center justify-center overflow-hidden">
+
+        <!-- Hero Text (New) -->
+        <div class="z-10 text-center relative pointer-events-none select-none mix-blend-difference text-white">
+            <h1 class="font-display font-bold text-6xl md:text-9xl tracking-tighter mb-4 opacity-0" id="hero-title">
+                HELLO.
+            </h1>
+            <p class="font-display text-xl md:text-2xl tracking-widest uppercase opacity-0" id="hero-subtitle">
+                Welcome to the chaos
+            </p>
+        </div>
+
         <!-- Dynamic CTA Pill Buttons (populated by JS) -->
         <div id="hero-pills">
             <!-- Dynamic pill buttons will be inserted here -->
         </div>
     </main>
-    
+
     <!-- About & Footer Section -->
-    <section class="bg-background-light dark:bg-background-dark px-4 md:px-12 py-10 md:py-16 relative z-30 border-t border-gray-200 dark:border-gray-800">
+    <section
+        class="bg-background-light dark:bg-background-dark px-4 md:px-12 py-10 md:py-16 relative z-30 border-t border-gray-200 dark:border-gray-800">
         <div class="grid md:grid-cols-2 gap-8 md:gap-12 mb-16 md:mb-24">
             <!-- Left Column: Newsletter Signup -->
             <div class="text-center md:text-left">
-                <h2 class="text-2xl md:text-5xl font-display font-medium leading-tight mb-6 md:mb-8 text-black dark:text-white">
+                <h2
+                    class="text-2xl md:text-5xl font-display font-medium leading-tight mb-6 md:mb-8 text-black dark:text-white">
                     Stay connected for early access to my newest experiments and weird ideas.
                 </h2>
                 <div class="flex flex-col items-center md:items-start md:flex-row flex-wrap gap-4 mb-8">
@@ -116,52 +156,58 @@
                     <div id="footer-social" class="flex gap-4">
                         <!-- Dynamic social icons will be inserted here -->
                     </div>
-                    <a class="h-12 w-full md:w-auto px-6 rounded-full border border-gray-400 dark:border-gray-600 flex items-center justify-center font-display font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white mt-2 md:mt-0" href="#">
-                        Sign up for my newsletter
+                    <a class="h-12 w-full md:w-auto px-6 rounded-full border border-gray-400 dark:border-gray-600 flex items-center justify-center font-display font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white mt-2 md:mt-0"
+                        href="#">
+                        Hold MY CV
                     </a>
                 </div>
             </div>
-            
+
             <!-- Right Column: Navigation & Tech Stack -->
             <div class="grid grid-cols-2 gap-8 text-base md:text-lg">
                 <!-- Navigation Links -->
                 <div>
                     <h3 class="font-display font-bold mb-4 text-black dark:text-white">Navigation</h3>
-                    <ul id="footer-nav" class="space-y-2 text-gray-600 dark:text-gray-400 font-display text-sm md:text-base">
+                    <ul id="footer-nav"
+                        class="space-y-2 text-gray-600 dark:text-gray-400 font-display text-sm md:text-base">
                         <!-- Dynamic navigation links will be inserted here -->
                     </ul>
                 </div>
-                
+
                 <!-- Tech Stack -->
                 <div>
                     <h3 class="font-display font-bold mb-4 text-black dark:text-white">Latest Tech Stack</h3>
-                    <ul id="tech-stack" class="space-y-2 text-gray-600 dark:text-gray-400 font-display text-sm md:text-base">
+                    <ul id="tech-stack"
+                        class="space-y-2 text-gray-600 dark:text-gray-400 font-display text-sm md:text-base">
                         <!-- Dynamic tech stack items will be inserted here -->
                     </ul>
                 </div>
             </div>
         </div>
-        
+
         <!-- Projects Section -->
         <div class="mb-16 md:mb-24">
-            <h2 class="text-3xl md:text-5xl font-display font-bold mb-8 md:mb-12 text-black dark:text-white text-center">
+            <h2
+                class="text-3xl md:text-5xl font-display font-bold mb-8 md:mb-12 text-black dark:text-white text-center">
                 Featured Projects
             </h2>
             <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
                 <!-- Dynamic project cards will be inserted here -->
             </div>
         </div>
-        
+
         <!-- Large Title -->
         <div class="w-full border-b border-black dark:border-white mb-4 overflow-hidden">
-            <h1 class="font-display font-bold text-[18vw] md:text-[14vw] leading-none tracking-tighter text-center text-black dark:text-white select-none whitespace-nowrap">
+            <h1
+                class="font-display font-bold text-[18vw] md:text-[14vw] leading-none tracking-tighter text-center text-black dark:text-white select-none whitespace-nowrap">
                 chathnindu
             </h1>
         </div>
     </section>
-    
+
     <!-- Footer -->
-    <footer class="px-4 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center text-xs font-display font-bold uppercase tracking-widest text-black dark:text-white bg-background-light dark:bg-background-dark text-center md:text-left">
+    <footer
+        class="px-4 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center text-xs font-display font-bold uppercase tracking-widest text-black dark:text-white bg-background-light dark:bg-background-dark text-center md:text-left">
         <div class="flex items-center space-x-2 mb-4 md:mb-0">
             <span>© 2026 chathnindu</span>
         </div>
@@ -169,8 +215,9 @@
             <!-- Dynamic footer links will be inserted here -->
         </div>
     </footer>
-    
+
     <!-- JavaScript Modules -->
     <script type="module" src="assets/js/main.js"></script>
 </body>
+
 </html>
