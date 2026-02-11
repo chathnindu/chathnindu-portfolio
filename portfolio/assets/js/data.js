@@ -67,11 +67,42 @@ export const heroPills = [
  * Technologies and frameworks currently used
  */
 export const techStack = [
-    "React & Next.js",
-    "Tailwind CSS",
-    "Node.js",
-    "Three.js",
-    "Python"
+    {
+        name: "React",
+        emoji: "⚛️",
+        url: "https://react.dev",
+        hoverEffect: "spin" // React logo spins
+    },
+    {
+        name: "Python",
+        emoji: "🐍",
+        url: "https://python.org",
+        hoverEffect: "wiggle" // Snake wiggle
+    },
+    {
+        name: "Django",
+        emoji: "🎸",
+        url: "https://djangoproject.com",
+        hoverEffect: "shake" // Rock & roll shake
+    },
+    {
+        name: "Flask",
+        emoji: "🧪",
+        url: "https://flask.palletsprojects.com",
+        hoverEffect: "bubble" // Lab bubbles
+    },
+    {
+        name: "Supabase",
+        emoji: "⚡",
+        url: "https://supabase.com",
+        hoverEffect: "glow" // Lightning glow
+    },
+    {
+        name: "+",
+        emoji: "🔮",
+        url: "https://github.com/chathnindu",
+        hoverEffect: "grow" // Expand & mystery
+    }
 ];
 
 /**

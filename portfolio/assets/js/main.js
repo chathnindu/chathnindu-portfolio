@@ -144,12 +144,20 @@ function createProjectCard(project) {
 }
 
 /**
- * Creates a simple list item
- * @param {string} text - Text content
- * @returns {string} HTML string for list item
+ * Creates a tech stack card with cartoon styling
+ * @param {Object} tech - Tech stack item data
+ * @returns {string} HTML string for tech card
  */
-function createListItem(text) {
-    return `<li>${text}</li>`;
+function createTechCard(tech) {
+    const isPlus = tech.name === '+';
+    return `
+        <a href="${tech.url}" target="_blank"
+           class="tech-card group relative flex flex-col items-center justify-center p-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-white bg-white/50 dark:bg-white/5 transition-all duration-300 cursor-pointer text-center"
+           data-effect="${tech.hoverEffect}">
+            <span class="text-2xl md:text-3xl mb-1 tech-emoji transition-transform duration-300">${tech.emoji}</span>
+            <span class="font-display font-bold text-xs md:text-sm text-gray-700 dark:text-gray-300 ${isPlus ? 'text-lg md:text-xl' : ''}">${tech.name}</span>
+        </a>
+    `;
 }
 
 /**
@@ -167,30 +175,7 @@ function createFooterLink(link) {
  * ============================================================================
  */
 
-/**
- * Renders navigation links in the header
- */
-function renderHeaderNavigation() {
-    const navContainer = document.getElementById('desktop-nav');
-    if (!navContainer) return;
 
-    navContainer.innerHTML = navigation
-        .map(createNavLink)
-        .join('');
-}
-
-/**
- * Renders social icons in the header
- */
-function renderHeaderSocial() {
-    const socialContainer = document.getElementById('header-social');
-    if (!socialContainer) return;
-
-    socialContainer.innerHTML = socialLinks
-        .filter(social => social.showInHeader)
-        .map(social => createSocialIcon(social, 'header'))
-        .join('');
-}
 
 /**
  * Renders hero pill buttons
@@ -218,26 +203,14 @@ function renderFooterSocial() {
 }
 
 /**
- * Renders footer navigation links
- */
-function renderFooterNavigation() {
-    const navContainer = document.getElementById('footer-nav');
-    if (!navContainer) return;
-
-    navContainer.innerHTML = navigation
-        .map(nav => `<li>${createNavLink(nav)}</li>`)
-        .join('');
-}
-
-/**
- * Renders tech stack list
+ * Renders tech stack as interactive cartoon cards
  */
 function renderTechStack() {
     const techContainer = document.getElementById('tech-stack');
     if (!techContainer) return;
 
     techContainer.innerHTML = techStack
-        .map(createListItem)
+        .map(createTechCard)
         .join('');
 }
 
@@ -287,7 +260,6 @@ function init() {
         // Render all components
         renderHeroPills();
         renderFooterSocial();
-        renderFooterNavigation();
         renderTechStack();
         renderFooterLinks();
 
