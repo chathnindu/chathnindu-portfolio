@@ -1,19 +1,31 @@
 /**
- * 3D BACKGROUND MODULE
- * Using Three.js to create an interactive particle system
+ * 3D BACKGROUND MODULE — STARFIELD SIMULATION
+ * Classic 90s "flying through space" screensaver effect
+ * Stars fly toward the camera from deep space
  */
 
-let scene, camera, renderer, particles;
-let mouseX = 0;
-let mouseY = 0;
-let targetX = 0;
-let targetY = 0;
+let scene, camera, renderer;
+let stars = [];
+let mouseX = 0, mouseY = 0;
+const isMobile = window.innerWidth < 768;
 
-const windowHalfX = window.innerWidth / 2;
-const windowHalfY = window.innerHeight / 2;
+// Star count — fewer on mobile for performance
+const STAR_COUNT = isMobile ? 300 : 600;
+const FIELD_DEPTH = 2000;
+const SPEED = isMobile ? 2 : 3;
+
+// Soft color palette — warm whites, soft blues, gold
+const STAR_COLORS = [
+    new THREE.Color(0xE0E8FF),  // lavender-white (most common)
+    new THREE.Color(0xE0E8FF),
+    new THREE.Color(0xE0E8FF),
+    new THREE.Color(0x88C0D0),  // soft cyan
+    new THREE.Color(0x7EB8DA),  // sky blue
+    new THREE.Color(0xF0C674),  // warm gold (rare)
+];
 
 /**
- * Initializes the 3D background
+ * Initializes the starfield background
  */
 export function initBackground() {
     const canvas = document.getElementById('bg-canvas');
@@ -22,112 +34,141 @@ export function initBackground() {
         return;
     }
 
-    // SCENE
+    // Scene
     scene = new THREE.Scene();
 
-    // CAMERA
-    camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
-    camera.position.z = 1000;
+    // Camera — centered, looking into deep space
+    camera = new THREE.PerspectiveCamera(
+        60,
+        window.innerWidth / window.innerHeight,
+        1,
+        FIELD_DEPTH
+    );
+    camera.position.z = 0;
 
-    // RENDERER
-    renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
-    renderer.setPixelRatio(window.devicePixelRatio);
+    // Renderer
+    renderer = new THREE.WebGLRenderer({
+        canvas: canvas,
+        alpha: true,
+        antialias: !isMobile // skip AA on mobile
+    });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(window.innerWidth, window.innerHeight);
 
-    // PARTICLES
-    createParticles();
+    // Create stars
+    createStarfield();
 
-    // EVENTS
-    document.addEventListener('mousemove', onDocumentMouseMove);
-    window.addEventListener('resize', onWindowResize);
+    // Events
+    if (!isMobile) {
+        document.addEventListener('mousemove', onMouseMove);
+    }
+    window.addEventListener('resize', onResize);
 
-    // ANIMATION LOOP
+    // Go!
     animate();
-    
-    console.log("🌌 3D Background Initialized");
+    console.log("⭐ Starfield Initialized");
 }
 
 /**
- * Creates the particle system
+ * Creates individual star points scattered in space
  */
-function createParticles() {
+function createStarfield() {
     const geometry = new THREE.BufferGeometry();
-    const count = 1000;
-    
-    const positions = [];
-    const colors = [];
-    
-    const colorPrimary = new THREE.Color(0xF9ABEA); // #F9ABEA (Primary Pink)
-    const colorSecondary = new THREE.Color(0x6B8AF8); // #6B8AF8 (Blue)
-    const colorTertiary = new THREE.Color(0x50F595); // #50F595 (Green)
+    const positions = new Float32Array(STAR_COUNT * 3);
+    const colors = new Float32Array(STAR_COUNT * 3);
+    const sizes = new Float32Array(STAR_COUNT);
 
-    for (let i = 0; i < count; i++) {
-        // Random positions
-        const x = (Math.random() - 0.5) * 2000;
-        const y = (Math.random() - 0.5) * 2000;
-        const z = (Math.random() - 0.5) * 2000;
-        positions.push(x, y, z);
+    for (let i = 0; i < STAR_COUNT; i++) {
+        const i3 = i * 3;
 
-        // Randomly assign one of the theme colors
-        const rand = Math.random();
-        let color;
-        if (rand < 0.33) color = colorPrimary;
-        else if (rand < 0.66) color = colorSecondary;
-        else color = colorTertiary;
-        
-        colors.push(color.r, color.g, color.b);
+        // Spread stars across the field, random depth
+        positions[i3] = (Math.random() - 0.5) * 1200;      // x
+        positions[i3 + 1] = (Math.random() - 0.5) * 1200;  // y
+        positions[i3 + 2] = Math.random() * FIELD_DEPTH;    // z (depth)
+
+        // Pick a color from palette
+        const color = STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)];
+        colors[i3] = color.r;
+        colors[i3 + 1] = color.g;
+        colors[i3 + 2] = color.b;
+
+        // Varied star sizes — some big, mostly small
+        sizes[i] = Math.random() < 0.1 ? 3 + Math.random() * 3 : 1 + Math.random() * 2;
     }
 
     geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
     geometry.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
 
+    // Custom shader for round, glowing star points
     const material = new THREE.PointsMaterial({
-        size: 8,
+        size: isMobile ? 2.5 : 3,
         vertexColors: true,
         transparent: true,
-        opacity: 0.8,
-        blending: THREE.AdditiveBlending
+        opacity: 0.85,
+        blending: THREE.AdditiveBlending,
+        sizeAttenuation: true
     });
 
-    particles = new THREE.Points(geometry, material);
-    scene.add(particles);
+    const points = new THREE.Points(geometry, material);
+    scene.add(points);
+
+    // Store reference for animation
+    stars.push({
+        points: points,
+        positions: positions,
+        baseSpeed: SPEED
+    });
 }
 
 /**
- * Handles mouse movement
+ * Mouse parallax (desktop only)
  */
-function onDocumentMouseMove(event) {
-    mouseX = (event.clientX - windowHalfX) * 0.5;
-    mouseY = (event.clientY - windowHalfY) * 0.5;
+function onMouseMove(e) {
+    mouseX = (e.clientX / window.innerWidth - 0.5) * 40;
+    mouseY = (e.clientY / window.innerHeight - 0.5) * 40;
 }
 
 /**
- * Handles window resize
+ * Window resize handler
  */
-function onWindowResize() {
+function onResize() {
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
 /**
- * Animation loop
+ * Main animation loop — stars fly toward you
  */
 function animate() {
     requestAnimationFrame(animate);
 
-    targetX = mouseX * 0.05;
-    targetY = mouseY * 0.05;
+    stars.forEach(star => {
+        const pos = star.positions;
+        const speed = star.baseSpeed;
 
-    // Smooth rotation based on mouse
-    if (particles) {
-        particles.rotation.y += 0.002 + (targetX - particles.rotation.y) * 0.01;
-        particles.rotation.x += 0.002 + (targetY - particles.rotation.x) * 0.01;
-        
-        // Gentle wave motion
-        const time = Date.now() * 0.0005;
-        particles.position.y = Math.sin(time) * 20;
+        for (let i = 0; i < pos.length; i += 3) {
+            // Move star toward camera (decrease z)
+            pos[i + 2] -= speed;
+
+            // When star passes camera, reset it to the back
+            if (pos[i + 2] < 1) {
+                pos[i + 2] = FIELD_DEPTH;
+                pos[i] = (Math.random() - 0.5) * 1200;
+                pos[i + 1] = (Math.random() - 0.5) * 1200;
+            }
+        }
+
+        // Update the geometry
+        star.points.geometry.attributes.position.needsUpdate = true;
+    });
+
+    // Gentle mouse parallax for camera (desktop)
+    if (!isMobile) {
+        camera.position.x += (mouseX - camera.position.x) * 0.02;
+        camera.position.y += (-mouseY - camera.position.y) * 0.02;
     }
 
+    camera.lookAt(0, 0, FIELD_DEPTH / 2);
     renderer.render(scene, camera);
 }
