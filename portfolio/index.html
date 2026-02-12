@@ -12,8 +12,7 @@
     <!-- Retro Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=Courier+Prime:wght@400;700&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
@@ -45,9 +44,9 @@
                         }
                     },
                     fontFamily: {
-                        display: ["'Press Start 2P'", "monospace"],
-                        body: ["'VT323'", "monospace"],
-                        mono: ["'Courier Prime'", "'Courier New'", "monospace"],
+                        display: ["'Source Code Pro'", "monospace"],
+                        body: ["'Source Code Pro'", "monospace"],
+                        mono: ["'Source Code Pro'", "monospace"],
                     },
                 },
             },
@@ -153,7 +152,7 @@
         .term-bar {
             background: #3A3A5C;
             color: #E0E8FF;
-            font-family: 'VT323', monospace;
+            font-family: 'Source Code Pro', monospace;
             font-size: 16px;
             padding: 6px 12px;
             display: flex;
@@ -238,12 +237,6 @@
             animation: rblink 2s ease-in-out infinite;
         }
 
-        /* Confetti */
-        .confetti {
-            position: fixed;
-            z-index: 9999;
-            pointer-events: none;
-        }
 
         /* Avatar spin */
         .avatar-spin:hover {
@@ -260,31 +253,102 @@
             }
         }
 
+        /* Floating CV Button */
+        .floating-cv-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 9990;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 20px;
+            color: #1C1C2E;
+            background: linear-gradient(135deg, #88C0D0, #7EB8DA);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(136, 192, 208, 0.35), 0 0 0 0 rgba(136, 192, 208, 0.4);
+            transition: all 0.3s ease;
+            animation: cvPulse 2.5s ease-in-out infinite;
+        }
+
+        .floating-cv-btn:hover {
+            background: linear-gradient(135deg, #F0C674, #D08770);
+            box-shadow: 0 6px 30px rgba(240, 198, 116, 0.45);
+            transform: translateY(-3px) scale(1.05);
+            animation: none;
+        }
+
+        .floating-cv-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .floating-cv-btn i {
+            font-size: 18px;
+        }
+
+        @keyframes cvPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 24px rgba(136, 192, 208, 0.35), 0 0 0 0 rgba(136, 192, 208, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 24px rgba(136, 192, 208, 0.35), 0 0 0 12px rgba(136, 192, 208, 0);
+            }
+        }
+
         /* Mobile text sizes */
         @media (max-width: 640px) {
             .term-bar {
                 font-size: 13px;
             }
+
+            .floating-cv-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 18px;
+            }
+
+            .floating-cv-btn .cv-label {
+                display: none;
+            }
+
+            .floating-cv-btn {
+                border-radius: 50%;
+                padding: 16px;
+            }
+
+            .floating-cv-btn i {
+                font-size: 20px;
+            }
         }
     </style>
 </head>
 
-<body class="font-body overflow-x-hidden min-h-screen flex flex-col" style="background:#1C1C2E;color:#E0E8FF;">
+<body class="font-body overflow-x-hidden min-h-screen flex flex-col"
+    style="background:#1C1C2E;color:#E0E8FF; font-family: 'Source Code Pro', monospace;">
 
     <!-- ★ Starfield Canvas ★ -->
     <canvas id="stars" class="fixed inset-0 w-full h-full pointer-events-none" style="z-index:0;"></canvas>
 
     <!-- ═══ HEADER ═══ -->
     <header class="h-12 md:h-14 flex items-center justify-between px-3 md:px-12 sticky top-0 z-50 nav-glass">
-        <a href="https://github.com/chathnindu" target="_blank"
+        <a href="https://github.com/chathnindu" target="_blank" rel="noopener noreferrer"
             class="flex items-center gap-1 md:gap-2 text-retro-text hover:text-retro-cyan transition-colors">
             <i class="fab fa-github text-lg md:text-xl"></i>
             <span class="text-base md:text-xl">github</span>
         </a>
         <div class="absolute left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
-            <span class="font-display text-[7px] md:text-[10px] glow">chathnindu</span>
+            <span class="font-display text-xs md:text-sm glow">chathnindu</span>
         </div>
-        <a href="https://www.linkedin.com/in/chathnindu/" target="_blank"
+        <a href="https://www.linkedin.com/in/chathnindu/" target="_blank" rel="noopener noreferrer"
             class="flex items-center gap-1 md:gap-2 text-retro-text hover:text-retro-cyan transition-colors">
             <span class="text-base md:text-xl">linkedin</span>
             <i class="fab fa-linkedin text-lg md:text-xl"></i>
@@ -296,21 +360,12 @@
         style="z-index:1;">
         <div class="z-10 text-center pointer-events-none select-none px-4 max-w-3xl">
             <h1 id="hero-title"
-                class="font-display text-2xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight mb-3 md:mb-6 glow leading-relaxed md:leading-normal"
+                class="font-display text-xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight mb-3 md:mb-6 glow leading-relaxed md:leading-normal break-all sm:break-normal"
                 style="border-right: 3px solid #88C0D0; display: inline-block; min-height: 1.2em;">
             </h1>
         </div>
 
-        <!-- Floating pills -->
-        <a href="https://github.com/chathnindu" target="_blank"
-            class="absolute top-[32%] left-[8%] md:top-[20%] md:left-[42%] bg-retro-dim/80 text-retro-text border border-retro-border px-3 py-2 md:px-5 md:py-3 text-base md:text-xl hover:bg-retro-cyan hover:text-retro-bg transition-all z-20 rotate-[8deg] md:rotate-[12deg]"
-            id="pill1">
-            click here!! 💀 <i class="fab fa-github ml-1"></i>
-        </a>
-        <div class="absolute top-[58%] right-[5%] md:top-[42%] md:right-[10%] bg-retro-dim/80 text-retro-text border border-retro-border px-3 py-2 md:px-5 md:py-3 text-base md:text-xl cursor-pointer hover:bg-retro-cyan hover:text-retro-bg transition-all z-20 -rotate-[5deg]"
-            id="pill2">
-            get my resume ✌️
-        </div>
+
     </main>
 
     <!-- ═══ ABOUT SECTION ═══ -->
@@ -328,58 +383,59 @@
                 <div class="grid md:grid-cols-2 gap-5 md:gap-10">
                     <!-- Left -->
                     <div class="text-center md:text-left">
-                        <h2 class="text-sm sm:text-base md:text-lg font-display leading-loose mb-4 md:mb-6 glow"
-                            style="line-height:2.2;">
+                        <h2 class="text-base font-display leading-loose mb-4 md:mb-6 glow" style="line-height:2.2;">
                             hey there!<br>check out my<br>cool stuff 👾
                         </h2>
                         <div class="flex flex-col sm:flex-row items-center md:items-start gap-3 mb-4">
-                            <a href="https://github.com/chathnindu" target="_blank"
-                                class="w-10 h-10 md:w-12 md:h-12 border border-retro-border flex items-center justify-center hover:bg-retro-cyan hover:text-retro-bg transition-colors">
-                                <i class="fab fa-github text-lg md:text-xl"></i>
-                            </a>
-                            <a href="https://www.linkedin.com/in/chathnindu/" target="_blank"
-                                class="w-10 h-10 md:w-12 md:h-12 border border-retro-border flex items-center justify-center hover:bg-retro-cyan hover:text-retro-bg transition-colors">
-                                <i class="fab fa-linkedin text-lg md:text-xl"></i>
-                            </a>
-                            <a href="#"
-                                class="h-10 md:h-12 w-full sm:w-auto px-4 md:px-6 border border-retro-border flex items-center justify-center text-lg md:text-xl hover:bg-retro-cyan hover:text-retro-bg transition-colors">
-                                download resume.txt ✌️
-                            </a>
+                            <div class="relative" id="proj-wrap">
+                                <span
+                                    class="absolute -top-5 -left-4 md:-top-7 md:-left-5 text-lg md:text-2xl anim-float select-none pointer-events-none">⚡</span>
+                                <span
+                                    class="absolute -top-4 right-0 md:-top-5 text-base md:text-xl anim-float2 select-none pointer-events-none">✨</span>
+                                <span
+                                    class="absolute -bottom-5 -right-4 md:-bottom-7 md:-right-5 text-lg md:text-2xl anim-float select-none pointer-events-none"
+                                    style="animation-delay:.4s">👾</span>
+
+                                <a href="https://github.com/chathnindu?tab=repositories" target="_blank"
+                                    rel="noopener noreferrer" id="proj-btn"
+                                    class="group relative inline-flex items-center gap-2 md:gap-3 px-5 py-3 md:px-8 md:py-4 font-display text-sm text-retro-bg bg-retro-cyan hover:bg-retro-amber active:scale-95 transition-all duration-300 overflow-hidden">
+                                    <span
+                                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                                    <i class="fab fa-github text-base md:text-lg relative z-10"></i>
+                                    <span class="relative z-10">view my projects</span>
+                                    <i
+                                        class="fas fa-arrow-right text-xs relative z-10 group-hover:translate-x-2 transition-transform"></i>
+                                </a>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Right: Toolbox -->
+                    <!-- Right: Programming Languages -->
                     <div>
-                        <h3 class="text-lg md:text-xl mb-3 md:mb-5 text-retro-amber glow-amber">my stuff 🧰</h3>
-                        <div class="grid grid-cols-2 gap-3">
-                            <!-- Python card -->
-                            <a href="https://python.org" target="_blank"
-                                class="tech-card flex flex-col items-center justify-center p-4 border border-retro-border hover:border-retro-cyan transition-all cursor-pointer text-center"
-                                data-effect="slither" style="background:rgba(37,37,64,0.4);">
-                                <div class="tech-logo mb-2">
-                                    <img src="assets/icon/python.png" alt="Python" width="48" height="48"
-                                        style="object-fit:contain;">
-                                </div>
-                                <span class="font-display text-[8px] md:text-[10px]">Python</span>
-                                <span class="text-sm text-retro-muted">the danger noodle 🐍</span>
+                        <h3 class="text-base md:text-lg mb-3 md:mb-5 text-retro-amber glow-amber">languages i code �
+                        </h3>
+                        <div class="flex flex-col gap-3">
+                            <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">Python</span>
                             </a>
-                            <!-- Mystery card -->
-                            <a href="https://micropython.org/" target="_blank"
-                                class="tech-card flex flex-col items-center justify-center p-4 border border-retro-border hover:border-retro-cyan transition-all cursor-pointer text-center"
-                                data-effect="mystery" style="background:rgba(37,37,64,0.4);">
-                                <div class="tech-logo mb-2">
-                                    <svg viewBox="0 0 100 100" width="48" height="48">
-                                        <circle cx="50" cy="50" r="42" fill="none" stroke="#88C0D0" stroke-width="2"
-                                            stroke-dasharray="6 4" opacity="0.5" />
-                                        <circle cx="50" cy="50" r="32" fill="none" stroke="#F0C674" stroke-width="1.5"
-                                            stroke-dasharray="4 4" opacity="0.3" />
-                                        <text x="50" y="66" text-anchor="middle"
-                                            font-family="'Press Start 2P',monospace" font-size="36" font-weight="700"
-                                            fill="#88C0D0">?</text>
-                                    </svg>
-                                </div>
-                                <span class="font-display text-[8px] md:text-[10px]">???</span>
-                                <span class="text-sm text-retro-muted">coming soon... 👀</span>
+                            <a href="https://dev.java/" target="_blank" rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">Java</span>
+                            </a>
+                            <a href="https://dotnet.microsoft.com/en-us/languages/csharp" target="_blank"
+                                rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">C#</span>
+                            </a>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"
+                                rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">JavaScript</span>
                             </a>
                         </div>
                     </div>
@@ -387,28 +443,6 @@
             </div>
         </div>
 
-        <!-- Project Button -->
-        <div class="mb-8 md:mb-16 flex justify-center">
-            <div class="relative" id="proj-wrap">
-                <span
-                    class="absolute -top-5 -left-4 md:-top-7 md:-left-5 text-lg md:text-2xl anim-float select-none pointer-events-none">⚡</span>
-                <span
-                    class="absolute -top-4 right-0 md:-top-5 text-base md:text-xl anim-float2 select-none pointer-events-none">✨</span>
-                <span
-                    class="absolute -bottom-5 -right-4 md:-bottom-7 md:-right-5 text-lg md:text-2xl anim-float select-none pointer-events-none"
-                    style="animation-delay:.4s">👾</span>
-
-                <a href="https://github.com/chathnindu?tab=repositories" target="_blank" id="proj-btn"
-                    class="group relative inline-flex items-center gap-2 md:gap-3 px-5 py-3 md:px-8 md:py-4 font-display text-[8px] sm:text-[10px] md:text-xs text-retro-bg bg-retro-cyan hover:bg-retro-amber active:scale-95 transition-all duration-300 overflow-hidden">
-                    <span
-                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
-                    <i class="fab fa-github text-base md:text-lg relative z-10"></i>
-                    <span class="relative z-10">view my projects</span>
-                    <i
-                        class="fas fa-arrow-right text-xs relative z-10 group-hover:translate-x-2 transition-transform"></i>
-                </a>
-            </div>
-        </div>
 
         <!-- Under Construction -->
         <div class="flex justify-center items-center gap-2 mb-5 md:mb-8 retro-blink">
@@ -432,19 +466,22 @@
         style="z-index:2;">
         <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
             <span>
-                © <a href="https://www.python.org/psf-landing/" target="_blank"
+                © <a href="https://www.python.org/psf-landing/" target="_blank" rel="noopener noreferrer"
                     class="hover:text-retro-cyan transition-colors">1991</a>
-                <a href="https://bsky.app/profile/gimpho.bsky.social" target="_blank"
+                <a href="https://bsky.app/profile/gimpho.bsky.social" target="_blank" rel="noopener noreferrer"
                     class="hover:text-retro-cyan transition-colors">gimpho</a>
             </span>
             <span class="hidden sm:inline text-retro-border">·</span>
-            <span class="text-retro-muted/60">built with ☕ and questionable decisions</span>
+            <span class="text-retro-muted/60">built with <a href="https://www.xda-developers.com/" target="_blank"
+                    rel="noopener noreferrer" class="text-retro-blue hover:text-retro-cyan transition-colors"><i
+                        class="fas fa-heart"></i></a></span>
         </div>
         <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
-            <a href="https://github.com/vinta/awesome-python" target="_blank"
+            <a href="https://github.com/vinta/awesome-python" target="_blank" rel="noopener noreferrer"
                 class="hover:text-retro-cyan transition-colors">awsome-python</a>
             <span class="hidden sm:inline text-retro-border">·</span>
-            <span class="text-retro-muted/50">best viewed in Netscape 3.0 🌐</span>
+            <a href="https://github.com/mcauser/awesome-micropython" target="_blank" rel="noopener noreferrer"
+                class="hover:text-retro-cyan transition-colors">awesome-micropython</a>
         </div>
     </footer>
 
@@ -541,7 +578,7 @@
                     renderer.render(scene, camera);
                 }
                 loop();
-                console.log('⭐ Starfield ready');
+
             }
 
             // ──────────────────────────────────────────────────
@@ -554,23 +591,14 @@
                 const heroEl = document.getElementById('hero-title');
                 if (heroEl) {
                     const words = [
-                        'welcome',       // English
-                        'வணக்கம்',       // Tamil
-                        'ආයුබෝවන්',     // Sinhala
-                        'ようこそ',        // Japanese
-                        '欢迎',           // Chinese
-                        '환영합니다',      // Korean
-                        'salve',         // Latin
-                        'willkommen',    // German
-                        'добро пожаловать', // Russian
-                        'welkom',        // Dutch
-                        'స్వాగతం',        // Telugu
-                        'स्वागत है',       // Hindi
+                        'print("Hello World")',           // Python
+                        'console.log("Welcome")',         // JS
+                        'System.out.println("Hi")',       // Java
+                        'Console.WriteLine("Hey")',       // C#
                     ];
                     let wordIdx = 0;
                     let charIdx = 0;
                     let isDeleting = false;
-                    let pillsShown = false;
 
                     function tick() {
                         const current = words[wordIdx];
@@ -583,11 +611,6 @@
                                 charIdx++;
                                 setTimeout(tick, 90 + Math.random() * 50);
                             } else {
-                                // Finished typing — show pills after first word
-                                if (!pillsShown) {
-                                    pillsShown = true;
-                                    gsap.from('#pill1, #pill2', { scale: 0, opacity: 0, stagger: 0.25, duration: 0.8, ease: 'back.out(1.7)', delay: 0.2 });
-                                }
                                 // Pause, then start deleting
                                 setTimeout(() => { isDeleting = true; tick(); }, 2200);
                             }
@@ -630,46 +653,7 @@
                 }
             }
 
-            // ──────────────────────────────────────────────────
-            // TECH STACK HOVER EFFECTS
-            // ──────────────────────────────────────────────────
-            function initTechEffects() {
-                document.querySelectorAll('.tech-card').forEach(card => {
-                    const effect = card.dataset.effect;
-                    const logo = card.querySelector('.tech-logo');
 
-                    card.addEventListener('mouseenter', () => {
-                        if (effect === 'slither') {
-                            gsap.to(logo, {
-                                keyframes: [
-                                    { x: -5, rotation: -6, duration: .07 }, { x: 5, rotation: 6, duration: .07 },
-                                    { x: -3, rotation: -3, duration: .07 }, { x: 3, rotation: 3, duration: .07 },
-                                    { x: 0, rotation: 0, duration: .1 }
-                                ]
-                            });
-                            gsap.to(card, { scale: 1.06, borderColor: '#F0C674', boxShadow: '0 0 20px rgba(240,198,116,0.25)', duration: .3 });
-                            const s = document.createElement('span');
-                            s.textContent = '🐍'; s.style.cssText = 'position:absolute;font-size:14px;pointer-events:none;top:6px;right:6px;opacity:0;';
-                            card.appendChild(s);
-                            gsap.to(s, { opacity: 1, scale: 1.2, duration: .25, ease: 'back.out(2)', onComplete: () => { gsap.to(s, { opacity: 0, y: -8, duration: .3, delay: .3, onComplete: () => s.remove() }) } });
-                        }
-                        if (effect === 'mystery') {
-                            gsap.to(logo, { rotation: 360, scale: 1.15, duration: .7, ease: 'power1.inOut' });
-                            gsap.to(card, { scale: 1.08, borderColor: '#88C0D0', boxShadow: '0 0 25px rgba(136,192,208,0.3)', duration: .35 });
-                            ['✨', '⭐', '🔮', '💫'].forEach((e, i) => {
-                                const sp = document.createElement('span');
-                                sp.textContent = e; sp.style.cssText = `position:absolute;font-size:${10 + Math.random() * 6}px;pointer-events:none;opacity:0;left:${15 + Math.random() * 70}%;top:${30 + Math.random() * 40}%`;
-                                card.appendChild(sp);
-                                gsap.to(sp, { opacity: 1, y: -(15 + Math.random() * 20), rotation: Math.random() * 140, scale: .4, duration: .7 + Math.random() * .3, delay: i * .06, ease: 'power1.out', onComplete: () => sp.remove() });
-                            });
-                        }
-                    });
-                    card.addEventListener('mouseleave', () => {
-                        gsap.to(logo, { rotation: 0, scale: 1, x: 0, y: 0, duration: .35, ease: 'elastic.out(1,0.4)' });
-                        gsap.to(card, { scale: 1, borderColor: '', boxShadow: '', duration: .25 });
-                    });
-                });
-            }
 
             // ──────────────────────────────────────────────────
             // LIQUID TEXT EFFECT
@@ -708,31 +692,7 @@
                 });
             }
 
-            // ──────────────────────────────────────────────────
-            // KONAMI CODE EASTER EGG
-            // ──────────────────────────────────────────────────
-            function initKonami() {
-                const code = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-                let idx = 0;
-                document.addEventListener('keydown', e => {
-                    if (e.code === code[idx]) { idx++; if (idx === code.length) { idx = 0; party(); } } else { idx = 0; }
-                });
-            }
-            function party() {
-                const cols = ['#88C0D0', '#F0C674', '#BF616A', '#A3BE8C', '#D08770', '#7EB8DA'];
-                for (let i = 0; i < 100; i++) {
-                    const p = document.createElement('div');
-                    p.className = 'confetti';
-                    p.style.width = (4 + Math.random() * 8) + 'px'; p.style.height = p.style.width;
-                    p.style.background = cols[Math.floor(Math.random() * cols.length)];
-                    p.style.left = Math.random() * 100 + 'vw'; p.style.top = '-10px';
-                    p.style.borderRadius = Math.random() > .5 ? '50%' : '2px';
-                    document.body.appendChild(p);
-                    gsap.to(p, { y: window.innerHeight + 30, x: (Math.random() - .5) * 200, rotation: Math.random() * 500, duration: 2 + Math.random() * 2, ease: 'power1.in', delay: Math.random() * .4, onComplete: () => p.remove() });
-                }
-                const h = document.getElementById('hero-title');
-                if (h) gsap.to(h, { scale: 1.08, rotation: 2, duration: .25, yoyo: true, repeat: 4, ease: 'power2.inOut', onComplete: () => gsap.set(h, { scale: 1, rotation: 0 }) });
-            }
+
 
             // ──────────────────────────────────────────────────
             // INIT EVERYTHING
@@ -742,9 +702,9 @@
                 try {
                     initStarfield();
                     initAnimations();
-                    initTechEffects();
+
                     initLiquidText();
-                    initKonami();
+
                     console.log('✅ All systems go!');
                 } catch (e) {
                     console.error('❌ Init error:', e);
@@ -758,6 +718,13 @@
             }
         })();
     </script>
+
+    <!-- ═══ FLOATING CV BUTTON ═══ -->
+    <a href="https://drive.google.com/file/d/1IaOGk7lJszWqdQL06B6aRS5VjN3A0GUL/view?usp=sharing" target="_blank"
+        rel="noopener noreferrer" class="floating-cv-btn" id="floating-cv">
+        <i class="fas fa-file-download"></i>
+        <span class="cv-label">Download CV</span>
+    </a>
 </body>
 
 </html>
