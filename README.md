@@ -1,6 +1,6 @@
-# gimpho 👾
+# chathnindu-portfolio 👾
 
-> *A digital artifact from a timeline where 1999 never ended.*
+> *A digital artifact from a timeline where 1991 never ended.*
 
 This is a personal portfolio built with nostalgia, questioned design choices, and a lot of ☕.  
 It serves as a playground for my projects and a tribute to the golden age of the web.
@@ -31,4 +31,4 @@ It serves as a playground for my projects and a tribute to the golden age of the
 MIT. Do whatever you want with it. Just don't blame me if it becomes sentient.
 
 ---
-*Built with logic and creativity by gimpho.*
+*built with logic and creativity by gimpho.*
