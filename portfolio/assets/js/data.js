@@ -46,14 +46,14 @@ export const socialLinks = [
  */
 export const heroPills = [
     {
-        text: "see what i broke on github 💀",
+        text: "click here!! 💀",
         href: "https://github.com/chathnindu",
         position: "top-[35%] left-[25%] md:top-[20%] md:left-[42%]",
         rotation: "rotate-[10deg] md:rotate-[75deg]",
         icon: "fab fa-github ml-2"
     },
     {
-        text: "grab my résumé ✌️",
+        text: "get my resume ✌️",
         href: "#",
         position: "top-[55%] right-[5%] md:top-[40%] md:right-[8%]",
         rotation: "-rotate-[5deg] md:rotate-[8deg]",
@@ -68,40 +68,22 @@ export const heroPills = [
  */
 export const techStack = [
     {
-        name: "React",
-        emoji: "⚛️",
-        url: "https://react.dev",
-        hoverEffect: "spin" // React logo spins
-    },
-    {
         name: "Python",
-        emoji: "🐍",
+        tagline: "the danger noodle 🐍",
         url: "https://python.org",
-        hoverEffect: "wiggle" // Snake wiggle
+        hoverEffect: "slither",
+        svg: `<img src="assets/icon/python.png" alt="Python" width="56" height="56" style="object-fit:contain;" />`
     },
     {
-        name: "Django",
-        emoji: "🎸",
-        url: "https://djangoproject.com",
-        hoverEffect: "shake" // Rock & roll shake
-    },
-    {
-        name: "Flask",
-        emoji: "🧪",
-        url: "https://flask.palletsprojects.com",
-        hoverEffect: "bubble" // Lab bubbles
-    },
-    {
-        name: "Supabase",
-        emoji: "⚡",
-        url: "https://supabase.com",
-        hoverEffect: "glow" // Lightning glow
-    },
-    {
-        name: "+",
-        emoji: "🔮",
-        url: "https://github.com/chathnindu",
-        hoverEffect: "grow" // Expand & mystery
+        name: "???",
+        tagline: "coming soon... 👀",
+        url: "https://micropython.org/",
+        hoverEffect: "mystery",
+        svg: `<svg viewBox="0 0 110 110" width="56" height="56" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="55" cy="55" r="48" fill="none" stroke="#50F595" stroke-width="3" stroke-dasharray="8 4" opacity="0.6"/>
+            <circle cx="55" cy="55" r="38" fill="none" stroke="#F9ABEA" stroke-width="2" stroke-dasharray="5 5" opacity="0.4"/>
+            <text x="55" y="72" text-anchor="middle" font-family="Space Grotesk, sans-serif" font-size="52" font-weight="700" fill="#50F595">?</text>
+        </svg>`
     }
 ];
 
@@ -133,9 +115,7 @@ export const projects = [
  * Cleaned up to match real pages
  */
 export const footerLinks = [
-    { label: "About", href: "#about" },
-    { label: "GitHub", href: "https://github.com/chathnindu" },
-    { label: "LinkedIn", href: "https://www.linkedin.com/in/chathnindu/" }
+    { label: "awsome-python", href: "https://github.com/vinta/awesome-python" }
 ];
 
 /**

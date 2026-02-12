@@ -49,28 +49,15 @@ function createNavLink(navItem) {
  * @returns {string} HTML string for social icon
  */
 function createSocialIcon(social, variant = 'header') {
-    if (variant === 'header') {
-        // Header icons: simple with hover scale
-        const hideClass = social.showInHeader ? '' : 'hidden md:block';
-        return `
-            <a class="${hideClass} hover:scale-110 transition-transform p-1" 
-               href="${social.url}" 
-               target="_blank"
-               aria-label="${social.platform}">
-                <i class="${social.icon} text-xl"></i>
-            </a>
-        `;
-    } else {
-        // Footer icons: circular with border
-        return `
-            <a class="w-12 h-12 rounded-full border border-gray-400 dark:border-gray-600 flex items-center justify-center hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white" 
-               href="${social.url}"
-               target="_blank"
-               aria-label="${social.platform}">
-                <i class="${social.icon}"></i>
-            </a>
-        `;
-    }
+    // Retro terminal style for both variants
+    return `
+        <a class="w-10 h-10 md:w-12 md:h-12 border border-retro-border flex items-center justify-center hover:bg-retro-cyan hover:text-retro-bg transition-colors text-retro-text font-body text-lg md:text-xl" 
+           href="${social.url}"
+           target="_blank"
+           aria-label="${social.platform}">
+            <i class="${social.icon}"></i>
+        </a>
+    `;
 }
 
 /**
@@ -81,12 +68,11 @@ function createSocialIcon(social, variant = 'header') {
 function createPillButton(pill) {
     const baseClasses = `
         absolute ${pill.position} 
-        bg-pill-green text-black font-display font-medium 
+        bg-retro-bg text-retro-text font-body 
         px-4 py-2 md:px-6 md:py-3 
-        rounded-full transform ${pill.rotation} 
-        hover:scale-110 transition-transform z-20 
-        shadow-lg border border-black/10 
-        whitespace-nowrap text-sm md:text-base
+        border border-retro-border transform ${pill.rotation} 
+        hover:bg-retro-cyan hover:text-retro-bg transition-all z-20 
+        whitespace-nowrap text-lg md:text-xl
     `.trim().replace(/\s+/g, ' ');
 
     const iconHTML = pill.icon ? `<i class="${pill.icon}"></i>` : '';
@@ -144,18 +130,18 @@ function createProjectCard(project) {
 }
 
 /**
- * Creates a tech stack card with cartoon styling
+ * Creates a tech stack card with SVG logo and funny tagline
  * @param {Object} tech - Tech stack item data
  * @returns {string} HTML string for tech card
  */
 function createTechCard(tech) {
-    const isPlus = tech.name === '+';
     return `
         <a href="${tech.url}" target="_blank"
-           class="tech-card group relative flex flex-col items-center justify-center p-4 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 hover:border-black dark:hover:border-white bg-white/50 dark:bg-white/5 transition-all duration-300 cursor-pointer text-center"
+           class="tech-card group relative flex flex-col items-center justify-center p-4 md:p-5 border border-retro-border hover:border-retro-cyan bg-retro-dim/40 transition-all duration-300 cursor-pointer text-center overflow-hidden"
            data-effect="${tech.hoverEffect}">
-            <span class="text-2xl md:text-3xl mb-1 tech-emoji transition-transform duration-300">${tech.emoji}</span>
-            <span class="font-display font-bold text-xs md:text-sm text-gray-700 dark:text-gray-300 ${isPlus ? 'text-lg md:text-xl' : ''}">${tech.name}</span>
+            <div class="tech-logo mb-2 transition-transform duration-300">${tech.svg}</div>
+            <span class="font-display text-[8px] md:text-[10px] text-retro-text">${tech.name}</span>
+            <span class="font-body text-sm md:text-base text-retro-muted mt-0.5">${tech.tagline}</span>
         </a>
     `;
 }
@@ -166,7 +152,7 @@ function createTechCard(tech) {
  * @returns {string} HTML string for footer link
  */
 function createFooterLink(link) {
-    return `<a class="hover:underline" href="${link.href}">${link.label}</a>`;
+    return `<a class="text-retro-muted hover:text-retro-cyan transition-colors text-base md:text-lg font-body" href="${link.href}" target="_blank">${link.label}</a>`;
 }
 
 /**

@@ -23,8 +23,9 @@ export function initAnimations() {
 }
 
 /**
- * Unique hover effects for each tech stack card
- * Each card gets a different cartoon-style animation based on data-effect
+ * Unique hover effects for Python and C tech cards
+ * Python: snake slither (wiggles side-to-side like a snake)
+ * C: segfault crash (violent shake + glitch + error flash)
  */
 function initTechStackEffects() {
     const cards = document.querySelectorAll('.tech-card');
@@ -32,98 +33,80 @@ function initTechStackEffects() {
 
     cards.forEach(card => {
         const effect = card.dataset.effect;
-        const emoji = card.querySelector('.tech-emoji');
+        const logo = card.querySelector('.tech-logo');
 
         card.addEventListener('mouseenter', () => {
             switch (effect) {
-                case 'spin':
-                    // React: continuous spin like the atom logo
-                    gsap.to(emoji, { rotation: 360, duration: 0.6, ease: "power2.out" });
-                    gsap.to(card, { scale: 1.1, borderColor: '#61DAFB', boxShadow: '0 0 20px rgba(97,218,251,0.4)', duration: 0.3 });
-                    break;
-
-                case 'wiggle':
-                    // Python: snake slither wiggle
-                    gsap.to(emoji, {
+                case 'slither':
+                    // Python: snake slithering S-curve
+                    gsap.to(logo, {
                         keyframes: [
-                            { x: -5, rotation: -10, duration: 0.1 },
-                            { x: 5, rotation: 10, duration: 0.1 },
-                            { x: -3, rotation: -5, duration: 0.1 },
-                            { x: 3, rotation: 5, duration: 0.1 },
+                            { x: -6, rotation: -8, duration: 0.08 },
+                            { x: 6, rotation: 8, duration: 0.08 },
+                            { x: -4, rotation: -5, duration: 0.08 },
+                            { x: 4, rotation: 5, duration: 0.08 },
+                            { x: -2, rotation: -2, duration: 0.08 },
                             { x: 0, rotation: 0, duration: 0.1 }
                         ]
                     });
-                    gsap.to(card, { scale: 1.08, borderColor: '#3776AB', boxShadow: '0 0 20px rgba(55,118,171,0.4)', duration: 0.3 });
-                    break;
-
-                case 'shake':
-                    // Django: rock & roll shake
-                    gsap.to(emoji, {
-                        keyframes: [
-                            { y: -8, scaleY: 1.2, duration: 0.1 },
-                            { y: 0, scaleY: 0.9, duration: 0.1 },
-                            { y: -4, scaleY: 1.1, duration: 0.1 },
-                            { y: 0, scaleY: 1, duration: 0.15 }
-                        ]
+                    gsap.to(card, {
+                        scale: 1.08,
+                        borderColor: '#FFD43B',
+                        boxShadow: '0 0 25px rgba(255,212,59,0.35), 0 0 50px rgba(48,105,152,0.15)',
+                        duration: 0.3
                     });
-                    gsap.to(card, { scale: 1.08, borderColor: '#092E20', boxShadow: '0 0 20px rgba(9,46,32,0.4)', duration: 0.3 });
-                    break;
-
-                case 'bubble':
-                    // Flask: lab flask fizz - emoji floats up and down
-                    gsap.to(emoji, {
-                        y: -12,
-                        scale: 1.4,
-                        duration: 0.3,
-                        ease: "back.out(3)",
+                    // Spawn tiny snake tongue flick
+                    const tongue = document.createElement('span');
+                    tongue.textContent = '🐍';
+                    tongue.style.cssText = 'position:absolute;font-size:16px;pointer-events:none;top:8px;right:8px;opacity:0;';
+                    card.appendChild(tongue);
+                    gsap.to(tongue, {
+                        opacity: 1, scale: 1.3, rotation: 15,
+                        duration: 0.3, ease: "back.out(2)",
+                        onComplete: () => {
+                            gsap.to(tongue, { opacity: 0, y: -10, duration: 0.4, delay: 0.3, onComplete: () => tongue.remove() });
+                        }
                     });
-                    // Create tiny bubbles
-                    for (let i = 0; i < 4; i++) {
-                        const bubble = document.createElement('span');
-                        bubble.textContent = '○';
-                        bubble.style.cssText = `position:absolute;font-size:${8 + Math.random() * 8}px;color:#50F595;pointer-events:none;`;
-                        bubble.style.left = (30 + Math.random() * 40) + '%';
-                        bubble.style.bottom = '30%';
-                        card.appendChild(bubble);
-                        gsap.to(bubble, {
-                            y: -(30 + Math.random() * 30),
-                            opacity: 0,
-                            scale: 0.5,
-                            duration: 0.6 + Math.random() * 0.4,
-                            delay: i * 0.1,
-                            ease: "power1.out",
-                            onComplete: () => bubble.remove()
-                        });
-                    }
-                    gsap.to(card, { scale: 1.08, borderColor: '#50F595', boxShadow: '0 0 20px rgba(80,245,149,0.4)', duration: 0.3 });
                     break;
 
-                case 'glow':
-                    // Supabase: lightning pulse glow
-                    gsap.to(emoji, { scale: 1.5, duration: 0.15, yoyo: true, repeat: 1 });
+                case 'mystery':
+                    // Mystery: pulsing glow + slow rotation + sparkles
+                    gsap.to(logo, {
+                        rotation: 360,
+                        scale: 1.2,
+                        duration: 0.8,
+                        ease: "power1.inOut"
+                    });
                     gsap.to(card, {
                         scale: 1.1,
-                        borderColor: '#3ECF8E',
-                        boxShadow: '0 0 30px rgba(62,207,142,0.6), 0 0 60px rgba(62,207,142,0.2)',
-                        duration: 0.3
+                        borderColor: '#50F595',
+                        boxShadow: '0 0 30px rgba(80,245,149,0.4), 0 0 60px rgba(249,171,234,0.2)',
+                        duration: 0.4
                     });
-                    break;
-
-                case 'grow':
-                    // Plus: mystery expand with rotation
-                    gsap.to(emoji, { rotation: 180, scale: 1.6, duration: 0.4, ease: "back.out(2)" });
-                    gsap.to(card, {
-                        scale: 1.12,
-                        borderColor: '#F9ABEA',
-                        boxShadow: '0 0 25px rgba(249,171,234,0.5)',
-                        duration: 0.3
-                    });
+                    // Spawn floating sparkles
+                    for (let i = 0; i < 5; i++) {
+                        const sparkle = document.createElement('span');
+                        sparkle.textContent = ['✨', '⭐', '🔮', '💫', '✦'][i];
+                        sparkle.style.cssText = `position:absolute;font-size:${10 + Math.random() * 8}px;pointer-events:none;opacity:0;`;
+                        sparkle.style.left = (15 + Math.random() * 70) + '%';
+                        sparkle.style.top = (30 + Math.random() * 40) + '%';
+                        card.appendChild(sparkle);
+                        gsap.to(sparkle, {
+                            opacity: 1, y: -(20 + Math.random() * 25), x: (Math.random() - 0.5) * 20,
+                            rotation: Math.random() * 180,
+                            scale: 0.4,
+                            duration: 0.8 + Math.random() * 0.4,
+                            delay: i * 0.08,
+                            ease: "power1.out",
+                            onComplete: () => sparkle.remove()
+                        });
+                    }
                     break;
             }
         });
 
         card.addEventListener('mouseleave', () => {
-            gsap.to(emoji, { rotation: 0, scale: 1, x: 0, y: 0, scaleX: 1, scaleY: 1, duration: 0.4, ease: "elastic.out(1, 0.4)" });
+            gsap.to(logo, { rotation: 0, scale: 1, x: 0, y: 0, duration: 0.4, ease: "elastic.out(1, 0.4)" });
             gsap.to(card, { scale: 1, borderColor: '', boxShadow: '', duration: 0.3 });
         });
     });

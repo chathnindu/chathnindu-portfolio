@@ -1,19 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>chathnindu Portfolio</title>
+    <title>~chathnindu's homepage~</title>
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
-    <!-- Google Fonts -->
+    <!-- Retro Fonts -->
     <link href="https://fonts.googleapis.com" rel="preconnect" />
     <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;600&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
@@ -24,308 +23,708 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 
-    <!-- Tailwind Configuration -->
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        primary: "#F9ABEA",
-                        "background-light": "#FFFFFF",
-                        "background-dark": "#0a0a0a",
-                        "glass-light": "rgba(255, 255, 255, 0.7)",
-                        "glass-dark": "rgba(20, 20, 20, 0.7)",
-                        "pill-green": "#50F595",
+                        retro: {
+                            bg: "#1C1C2E",
+                            text: "#E0E8FF",
+                            cyan: "#88C0D0",
+                            blue: "#7EB8DA",
+                            amber: "#F0C674",
+                            orange: "#D08770",
+                            red: "#BF616A",
+                            green: "#A3BE8C",
+                            dim: "#252540",
+                            border: "#3A3A5C",
+                            muted: "#8888AA",
+                        }
                     },
                     fontFamily: {
-                        display: ["Space Grotesk", "sans-serif"],
-                        body: ["Inter", "sans-serif"],
+                        display: ["'Source Code Pro'", "monospace"],
+                        body: ["'Source Code Pro'", "monospace"],
+                        mono: ["'Source Code Pro'", "monospace"],
                     },
-                    borderRadius: {
-                        DEFAULT: "0.5rem",
-                    },
-                    backdropBlur: {
-                        xs: '2px',
-                    }
                 },
             },
         };
     </script>
 
-    <!-- Custom Animations & Styles -->
     <style>
-        /* Custom Scrollbar */
+        html,
+        body {
+            background: #1C1C2E !important;
+            color: #E0E8FF;
+        }
+
+        /* CRT scanlines — very subtle */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.05) 0px, rgba(0, 0, 0, 0.05) 1px, transparent 1px, transparent 3px);
+            opacity: 0.2;
+        }
+
+        /* Scrollbar */
         ::-webkit-scrollbar {
             width: 8px;
         }
 
         ::-webkit-scrollbar-track {
-            background: transparent;
+            background: #1C1C2E;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: #888;
+            background: #3A3A5C;
             border-radius: 4px;
         }
 
         ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+            background: #7EB8DA;
         }
 
-        /* Glassmorphism Utilities */
-        .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+        /* Nav glass */
+        .nav-glass {
+            background: rgba(28, 28, 46, 0.92);
+            border-bottom: 1px solid rgba(126, 184, 218, 0.15);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
         }
 
-        .dark .glass {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+        /* Blink cursor */
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1
+            }
+
+            51%,
+            100% {
+                opacity: 0
+            }
         }
 
-        /* Glitch text animation for subtitle */
+        .blink {
+            animation: blink 1s step-end infinite;
+        }
+
+        /* Glitch */
         @keyframes glitch {
 
             0%,
             100% {
-                text-shadow: none;
+                text-shadow: none
             }
 
             20% {
-                text-shadow: -2px 0 #50F595, 2px 0 #F9ABEA;
+                text-shadow: -2px 0 #88C0D0, 2px 0 #D08770
             }
 
             40% {
-                text-shadow: 2px 0 #50F595, -2px 0 #F9ABEA;
+                text-shadow: 2px 0 #88C0D0, -2px 0 #D08770
             }
 
             60% {
-                text-shadow: -1px 0 #F9ABEA, 1px 0 #50F595;
+                text-shadow: -1px 0 #D08770, 1px 0 #88C0D0
             }
 
             80% {
-                text-shadow: 1px 0 #F9ABEA, -1px 0 #50F595;
+                text-shadow: 1px 0 #D08770, -1px 0 #88C0D0
             }
         }
 
-        .glitch-text {
-            animation: glitch 3s ease-in-out infinite;
+        .glitch {
+            animation: glitch 4s ease-in-out infinite;
         }
 
-        /* Floating doodle animations */
-        @keyframes float-slow {
+        /* Terminal window */
+        .term-win {
+            border: 1px solid #3A3A5C;
+        }
+
+        .term-bar {
+            background: #3A3A5C;
+            color: #E0E8FF;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 16px;
+            padding: 6px 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .term-dots {
+            display: flex;
+            gap: 5px;
+        }
+
+        .term-dots span {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: block;
+        }
+
+        /* Glow */
+        .glow {
+            text-shadow: 0 0 10px rgba(126, 184, 218, 0.25);
+        }
+
+        .glow-amber {
+            text-shadow: 0 0 10px rgba(240, 198, 116, 0.25);
+        }
+
+        /* Selection */
+        ::selection {
+            background: #7EB8DA;
+            color: #1C1C2E;
+        }
+
+        /* Float animations */
+        @keyframes float1 {
 
             0%,
             100% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg)
             }
 
             50% {
-                transform: translateY(-10px) rotate(5deg);
+                transform: translateY(-8px) rotate(3deg)
             }
         }
 
-        @keyframes float-reverse {
+        @keyframes float2 {
 
             0%,
             100% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0)
             }
 
             50% {
-                transform: translateY(8px) rotate(-5deg);
+                transform: translateY(6px) rotate(-3deg)
             }
         }
 
-        @keyframes wiggle {
+        .anim-float {
+            animation: float1 4s ease-in-out infinite;
+        }
+
+        .anim-float2 {
+            animation: float2 3.5s ease-in-out infinite;
+        }
+
+        /* Retro blink */
+        @keyframes rblink {
 
             0%,
             100% {
-                transform: rotate(-3deg);
+                opacity: 1
             }
 
             50% {
-                transform: rotate(3deg);
+                opacity: 0.3
             }
         }
 
-        .float-slow {
-            animation: float-slow 4s ease-in-out infinite;
+        .retro-blink {
+            animation: rblink 2s ease-in-out infinite;
         }
 
-        .float-reverse {
-            animation: float-reverse 3.5s ease-in-out infinite;
-        }
 
-        .wiggle {
-            animation: wiggle 2s ease-in-out infinite;
-        }
-
-        /* Confetti */
-        .confetti-piece {
-            position: fixed;
-            z-index: 9999;
-            pointer-events: none;
-            border-radius: 2px;
-        }
-
-        /* Avatar spin on hover */
+        /* Avatar spin */
         .avatar-spin:hover {
             animation: spin360 0.6s ease-in-out;
         }
 
         @keyframes spin360 {
             from {
-                transform: rotate(0deg) scale(1.1);
+                transform: rotate(0deg) scale(1.1)
             }
 
             to {
-                transform: rotate(360deg) scale(1.1);
+                transform: rotate(360deg) scale(1.1)
+            }
+        }
+
+        /* Floating CV Button */
+        .floating-cv-btn {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 9990;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 20px;
+            color: #1C1C2E;
+            background: linear-gradient(135deg, #88C0D0, #7EB8DA);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 50px;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 4px 24px rgba(136, 192, 208, 0.35), 0 0 0 0 rgba(136, 192, 208, 0.4);
+            transition: all 0.3s ease;
+            animation: cvPulse 2.5s ease-in-out infinite;
+        }
+
+        .floating-cv-btn:hover {
+            background: linear-gradient(135deg, #F0C674, #D08770);
+            box-shadow: 0 6px 30px rgba(240, 198, 116, 0.45);
+            transform: translateY(-3px) scale(1.05);
+            animation: none;
+        }
+
+        .floating-cv-btn:active {
+            transform: translateY(0) scale(0.97);
+        }
+
+        .floating-cv-btn i {
+            font-size: 18px;
+        }
+
+        @keyframes cvPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 4px 24px rgba(136, 192, 208, 0.35), 0 0 0 0 rgba(136, 192, 208, 0.4);
+            }
+
+            50% {
+                box-shadow: 0 4px 24px rgba(136, 192, 208, 0.35), 0 0 0 12px rgba(136, 192, 208, 0);
+            }
+        }
+
+        /* Mobile text sizes */
+        @media (max-width: 640px) {
+            .term-bar {
+                font-size: 13px;
+            }
+
+            .floating-cv-btn {
+                bottom: 20px;
+                right: 20px;
+                padding: 12px 20px;
+                font-size: 18px;
+            }
+
+            .floating-cv-btn .cv-label {
+                display: none;
+            }
+
+            .floating-cv-btn {
+                border-radius: 50%;
+                padding: 16px;
+            }
+
+            .floating-cv-btn i {
+                font-size: 20px;
             }
         }
     </style>
 </head>
 
-<body
-    class="bg-background-light dark:bg-background-dark text-gray-900 dark:text-gray-100 font-body overflow-x-hidden min-h-screen flex flex-col">
+<body class="font-body overflow-x-hidden min-h-screen flex flex-col"
+    style="background:#1C1C2E;color:#E0E8FF; font-family: 'Source Code Pro', monospace;">
 
-    <!-- 3D Background Canvas -->
-    <canvas id="bg-canvas"
-        class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none opacity-40 dark:opacity-60"></canvas>
+    <!-- ★ Starfield Canvas ★ -->
+    <canvas id="stars" class="fixed inset-0 w-full h-full pointer-events-none" style="z-index:0;"></canvas>
 
-    <!-- Header Navigation -->
-    <header
-        class="h-14 md:h-16 flex items-center justify-between px-4 md:px-12 sticky top-0 z-50 glass transition-all duration-300">
-        <!-- Left: GitHub -->
-        <a href="https://github.com/chathnindu" target="_blank" aria-label="GitHub"
-            class="flex items-center gap-2 text-black dark:text-white hover:scale-110 transition-transform p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10">
-            <i class="fab fa-github text-xl md:text-2xl"></i>
-            <span class="hidden md:inline font-display font-medium text-sm">GitHub</span>
+    <!-- ═══ HEADER ═══ -->
+    <header class="h-12 md:h-14 flex items-center justify-between px-3 md:px-12 sticky top-0 z-50 nav-glass">
+        <a href="https://github.com/chathnindu" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-1 md:gap-2 text-retro-text hover:text-retro-cyan transition-colors">
+            <i class="fab fa-github text-lg md:text-xl"></i>
+            <span class="text-base md:text-xl">github</span>
         </a>
-
-        <!-- Logo (Centered) -->
-        <div class="absolute left-1/2 transform -translate-x-1/2 flex items-center space-x-2 cursor-pointer group">
-            <img src="assets/icon/avatar.png" alt="Logo"
-                class="h-8 w-8 md:h-10 md:w-10 object-contain avatar-spin transition-transform duration-300">
-            <span class="font-display font-bold text-lg md:text-xl text-black dark:text-white">chathnindu</span>
+        <div class="absolute left-1/2 -translate-x-1/2 flex items-center cursor-pointer">
+            <span class="font-display text-xs md:text-sm glow">chathnindu</span>
         </div>
-
-        <!-- Right: LinkedIn -->
-        <a href="https://www.linkedin.com/in/chathnindu/" target="_blank" aria-label="LinkedIn"
-            class="flex items-center gap-2 text-black dark:text-white hover:scale-110 transition-transform p-2 rounded-full hover:bg-black/5 dark:hover:bg-white/10">
-            <span class="hidden md:inline font-display font-medium text-sm">LinkedIn</span>
-            <i class="fab fa-linkedin text-xl md:text-2xl"></i>
+        <a href="https://www.linkedin.com/in/chathnindu/" target="_blank" rel="noopener noreferrer"
+            class="flex items-center gap-1 md:gap-2 text-retro-text hover:text-retro-cyan transition-colors">
+            <span class="text-base md:text-xl">linkedin</span>
+            <i class="fab fa-linkedin text-lg md:text-xl"></i>
         </a>
     </header>
 
-    <!-- Hero Section -->
-    <main class="flex-grow relative w-full h-[600px] md:h-[800px] flex items-center justify-center overflow-hidden">
-
-        <!-- Hero Text -->
-        <div class="z-10 text-center relative pointer-events-none select-none mix-blend-difference text-white px-4">
-            <h1 class="font-display font-bold text-5xl md:text-9xl tracking-tighter mb-4 opacity-0 lowercase"
-                id="hero-title">
-                hey, i build things.
+    <!-- ═══ HERO ═══ -->
+    <main class="flex-grow relative w-full h-[480px] md:h-[700px] flex items-center justify-center overflow-hidden"
+        style="z-index:1;">
+        <div class="z-10 text-center pointer-events-none select-none px-4 max-w-3xl">
+            <h1 id="hero-title"
+                class="font-display text-xl sm:text-3xl md:text-5xl lg:text-6xl tracking-tight mb-3 md:mb-6 glow leading-relaxed md:leading-normal break-all sm:break-normal"
+                style="border-right: 3px solid #88C0D0; display: inline-block; min-height: 1.2em;">
             </h1>
-            <p class="font-display text-lg md:text-2xl tracking-widest uppercase opacity-0 glitch-text"
-                id="hero-subtitle">
-                mostly working. sometimes broken. always shipping. 🚀
-            </p>
         </div>
 
-        <!-- Dynamic CTA Pill Buttons (populated by JS) -->
-        <div id="hero-pills">
-            <!-- Dynamic pill buttons will be inserted here -->
-        </div>
+
     </main>
 
-    <!-- About & Footer Section -->
-    <section
-        class="bg-background-light dark:bg-background-dark px-4 md:px-12 py-10 md:py-16 relative z-30 border-t border-gray-200 dark:border-gray-800">
-        <div class="grid md:grid-cols-2 gap-8 md:gap-12 mb-16 md:mb-24">
-            <!-- Left Column -->
-            <div class="text-center md:text-left">
-                <h2
-                    class="text-2xl md:text-5xl font-display font-medium leading-tight mb-6 md:mb-8 text-black dark:text-white">
-                    i occasionally build cool stuff. wanna see it before everyone else? 👀
-                </h2>
-                <div class="flex flex-col items-center md:items-start md:flex-row flex-wrap gap-4 mb-8">
-                    <!-- Social Icons (populated by JS) -->
-                    <div id="footer-social" class="flex gap-4">
-                        <!-- Dynamic social icons will be inserted here -->
+    <!-- ═══ ABOUT SECTION ═══ -->
+    <section class="px-3 md:px-12 py-6 md:py-14 relative" style="z-index:2;">
+        <div class="term-win mb-8 md:mb-16">
+            <div class="term-bar">
+                <div class="term-dots">
+                    <span style="background:#BF616A"></span>
+                    <span style="background:#F0C674"></span>
+                    <span style="background:#A3BE8C"></span>
+                </div>
+                <span>guestbook.exe</span>
+            </div>
+            <div class="p-4 md:p-8" style="background:rgba(37,37,64,0.5);">
+                <div class="grid md:grid-cols-2 gap-5 md:gap-10">
+                    <!-- Left -->
+                    <div class="text-center md:text-left">
+                        <h2 class="text-base font-display leading-loose mb-4 md:mb-6 glow" style="line-height:2.2;">
+                            hey there!<br>check out my<br>cool stuff 👾
+                        </h2>
+                        <div class="flex flex-col sm:flex-row items-center md:items-start gap-3 mb-4">
+                            <div class="relative" id="proj-wrap">
+                                <span
+                                    class="absolute -top-5 -left-4 md:-top-7 md:-left-5 text-lg md:text-2xl anim-float select-none pointer-events-none">⚡</span>
+                                <span
+                                    class="absolute -top-4 right-0 md:-top-5 text-base md:text-xl anim-float2 select-none pointer-events-none">✨</span>
+                                <span
+                                    class="absolute -bottom-5 -right-4 md:-bottom-7 md:-right-5 text-lg md:text-2xl anim-float select-none pointer-events-none"
+                                    style="animation-delay:.4s">👾</span>
+
+                                <a href="https://github.com/chathnindu?tab=repositories" target="_blank"
+                                    rel="noopener noreferrer" id="proj-btn"
+                                    class="group relative inline-flex items-center gap-2 md:gap-3 px-5 py-3 md:px-8 md:py-4 font-display text-sm text-retro-bg bg-retro-cyan hover:bg-retro-amber active:scale-95 transition-all duration-300 overflow-hidden">
+                                    <span
+                                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></span>
+                                    <i class="fab fa-github text-base md:text-lg relative z-10"></i>
+                                    <span class="relative z-10">view my projects</span>
+                                    <i
+                                        class="fas fa-arrow-right text-xs relative z-10 group-hover:translate-x-2 transition-transform"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <a class="h-12 w-full md:w-auto px-6 rounded-full border border-gray-400 dark:border-gray-600 flex items-center justify-center font-display font-medium hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors text-black dark:text-white mt-2 md:mt-0"
-                        href="#">
-                        grab my résumé ✌️
-                    </a>
-                </div>
-            </div>
 
-            <!-- Right Column: Tech Stack (full width now) -->
-            <div>
-                <h3 class="font-display font-bold mb-6 text-black dark:text-white text-lg">my toolbox 🧰</h3>
-                <div id="tech-stack" class="grid grid-cols-3 gap-3">
-                    <!-- Dynamic tech stack cards will be inserted here -->
+                    <!-- Right: Programming Languages -->
+                    <div>
+                        <h3 class="text-base md:text-lg mb-3 md:mb-5 text-retro-amber glow-amber">languages i code �
+                        </h3>
+                        <div class="flex flex-col gap-3">
+                            <a href="https://www.python.org/" target="_blank" rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">Python</span>
+                            </a>
+                            <a href="https://dev.java/" target="_blank" rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">Java</span>
+                            </a>
+                            <a href="https://dotnet.microsoft.com/en-us/languages/csharp" target="_blank"
+                                rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">C#</span>
+                            </a>
+                            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank"
+                                rel="noopener noreferrer"
+                                class="block p-3 border border-retro-border hover:border-retro-cyan transition-all text-center hover:bg-retro-dim/50"
+                                style="background:rgba(37,37,64,0.4);">
+                                <span class="font-display text-sm">JavaScript</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- Project Bundle CTA with Cartoon Doodles -->
-        <div class="mb-16 md:mb-24 flex justify-center">
-            <div class="relative" id="project-bundle-wrapper">
-                <!-- Floating doodles around the button -->
-                <span class="absolute -top-8 -left-6 text-3xl float-slow select-none pointer-events-none">⚡</span>
-                <span class="absolute -top-6 right-0 text-2xl float-reverse select-none pointer-events-none">✨</span>
-                <span class="absolute -bottom-6 -left-4 text-2xl wiggle select-none pointer-events-none">🚀</span>
-                <span class="absolute -bottom-8 -right-6 text-3xl float-slow select-none pointer-events-none"
-                    style="animation-delay: 0.5s;">👾</span>
-                <span class="absolute top-1/2 -left-10 text-xl float-reverse select-none pointer-events-none"
-                    style="animation-delay: 1s;">⭐</span>
-                <span class="absolute top-1/2 -right-10 text-xl wiggle select-none pointer-events-none"
-                    style="animation-delay: 0.3s;">🎯</span>
 
-                <!-- Hand-drawn border effect via shadow + dashed outline -->
-                <a href="https://github.com/chathnindu?tab=repositories" target="_blank" id="project-bundle-btn"
-                    class="group relative inline-flex items-center gap-3 px-10 py-5 rounded-2xl font-display font-bold text-lg md:text-xl text-black bg-pill-green shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300 border-[3px] border-dashed border-black/30 hover:border-black/60 overflow-hidden">
-                    <!-- Animated shimmer overlay -->
-                    <span
-                        class="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out"></span>
-                    <i class="fab fa-github text-2xl relative z-10"></i>
-                    <span class="relative z-10">Project Bundle</span>
-                    <i
-                        class="fas fa-arrow-right text-sm relative z-10 group-hover:translate-x-2 transition-transform duration-300"></i>
-                </a>
-            </div>
+        <!-- Under Construction -->
+        <div class="flex justify-center items-center gap-2 mb-5 md:mb-8 retro-blink">
+            <span class="text-retro-amber text-lg">🚧</span>
+            <span class="text-sm md:text-base text-retro-muted">page under construction</span>
+            <span class="text-retro-amber text-lg">🚧</span>
         </div>
 
-        <!-- Large Title -->
-        <div class="w-full border-b border-black dark:border-white mb-4 py-12 md:py-20 relative">
+        <!-- Large Title — Liquid Text -->
+        <div class="w-full border-b border-retro-border/30 mb-3 py-6 md:py-14">
             <h1 id="ink-text"
-                class="font-display font-bold text-[18vw] md:text-[14vw] leading-none tracking-tighter text-center text-black dark:text-white select-none whitespace-nowrap cursor-default transition-colors">
+                class="font-display text-[11vw] md:text-[10vw] leading-none tracking-tighter text-center select-none whitespace-nowrap cursor-default glow">
                 chathnindu
             </h1>
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ═══ FOOTER ═══ -->
     <footer
-        class="px-4 md:px-12 py-8 flex flex-col md:flex-row justify-between items-center text-xs font-display font-bold uppercase tracking-widest text-black dark:text-white bg-background-light dark:bg-background-dark text-center md:text-left">
-        <div class="flex items-center space-x-2 mb-4 md:mb-0">
-            <span>© 2026 chathnindu</span>
-            <span class="text-gray-400">·</span>
-            <span class="text-gray-400 normal-case font-normal text-[10px]">built with ☕ and questionable
-                decisions</span>
+        class="px-3 md:px-12 py-3 md:py-4 flex flex-col gap-2 sm:flex-row sm:justify-between sm:items-center text-retro-muted border-t border-retro-border/20 text-center text-sm md:text-base"
+        style="z-index:2;">
+        <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
+            <span>
+                © <a href="https://www.python.org/psf-landing/" target="_blank" rel="noopener noreferrer"
+                    class="hover:text-retro-cyan transition-colors">1991</a>
+                <a href="https://bsky.app/profile/gimpho.bsky.social" target="_blank" rel="noopener noreferrer"
+                    class="hover:text-retro-cyan transition-colors">gimpho</a>
+            </span>
+            <span class="hidden sm:inline text-retro-border">·</span>
+            <span class="text-retro-muted/60">built with <a href="https://www.xda-developers.com/" target="_blank"
+                    rel="noopener noreferrer" class="text-retro-blue hover:text-retro-cyan transition-colors"><i
+                        class="fas fa-heart"></i></a></span>
         </div>
-        <div id="footer-links" class="flex flex-wrap justify-center gap-4 md:gap-16 w-full md:w-auto px-4">
-            <!-- Dynamic footer links will be inserted here -->
+        <div class="flex flex-col sm:flex-row items-center gap-1 sm:gap-3">
+            <a href="https://github.com/vinta/awesome-python" target="_blank" rel="noopener noreferrer"
+                class="hover:text-retro-cyan transition-colors">awsome-python</a>
+            <span class="hidden sm:inline text-retro-border">·</span>
+            <a href="https://github.com/mcauser/awesome-micropython" target="_blank" rel="noopener noreferrer"
+                class="hover:text-retro-cyan transition-colors">awesome-micropython</a>
         </div>
     </footer>
 
-    <!-- JavaScript Modules -->
-    <script type="module" src="assets/js/main.js"></script>
+    <!-- ═══════════════════════════════════════════════════════════════════════
+         ALL JAVASCRIPT — INLINE FOR RELIABILITY
+         ═══════════════════════════════════════════════════════════════════════ -->
+    <script>
+        (function () {
+            'use strict';
+
+            // ──────────────────────────────────────────────────
+            // STARFIELD BACKGROUND
+            // ──────────────────────────────────────────────────
+            function initStarfield() {
+                const canvas = document.getElementById('stars');
+                if (!canvas) return;
+
+                const isMobile = window.innerWidth < 768;
+                const COUNT = isMobile ? 250 : 500;
+                const DEPTH = 1800;
+                const SPEED = isMobile ? 1.5 : 2.5;
+
+                const scene = new THREE.Scene();
+                const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, DEPTH);
+                camera.position.z = 0;
+
+                const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: !isMobile });
+                renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+                renderer.setSize(window.innerWidth, window.innerHeight);
+
+                // Star colors — warm & cool mix
+                const palette = [
+                    new THREE.Color(0xE0E8FF), new THREE.Color(0xE0E8FF), new THREE.Color(0xE0E8FF),
+                    new THREE.Color(0x88C0D0), new THREE.Color(0x7EB8DA), new THREE.Color(0xF0C674)
+                ];
+
+                const positions = new Float32Array(COUNT * 3);
+                const colors = new Float32Array(COUNT * 3);
+
+                for (let i = 0; i < COUNT; i++) {
+                    const i3 = i * 3;
+                    positions[i3] = (Math.random() - 0.5) * 1000;
+                    positions[i3 + 1] = (Math.random() - 0.5) * 1000;
+                    positions[i3 + 2] = Math.random() * DEPTH;
+                    const c = palette[Math.floor(Math.random() * palette.length)];
+                    colors[i3] = c.r; colors[i3 + 1] = c.g; colors[i3 + 2] = c.b;
+                }
+
+                const geo = new THREE.BufferGeometry();
+                geo.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+                geo.setAttribute('color', new THREE.Float32BufferAttribute(colors, 3));
+
+                const mat = new THREE.PointsMaterial({
+                    size: isMobile ? 2 : 2.5,
+                    vertexColors: true,
+                    transparent: true,
+                    opacity: 0.75,
+                    blending: THREE.AdditiveBlending,
+                    sizeAttenuation: true
+                });
+
+                scene.add(new THREE.Points(geo, mat));
+
+                let mx = 0, my = 0;
+                if (!isMobile) {
+                    document.addEventListener('mousemove', e => {
+                        mx = (e.clientX / window.innerWidth - 0.5) * 30;
+                        my = (e.clientY / window.innerHeight - 0.5) * 30;
+                    });
+                }
+
+                window.addEventListener('resize', () => {
+                    camera.aspect = window.innerWidth / window.innerHeight;
+                    camera.updateProjectionMatrix();
+                    renderer.setSize(window.innerWidth, window.innerHeight);
+                });
+
+                function loop() {
+                    requestAnimationFrame(loop);
+                    for (let i = 0; i < positions.length; i += 3) {
+                        positions[i + 2] -= SPEED;
+                        if (positions[i + 2] < 1) {
+                            positions[i + 2] = DEPTH;
+                            positions[i] = (Math.random() - 0.5) * 1000;
+                            positions[i + 1] = (Math.random() - 0.5) * 1000;
+                        }
+                    }
+                    geo.attributes.position.needsUpdate = true;
+                    if (!isMobile) {
+                        camera.position.x += (mx - camera.position.x) * 0.015;
+                        camera.position.y += (-my - camera.position.y) * 0.015;
+                    }
+                    camera.lookAt(0, 0, DEPTH / 2);
+                    renderer.render(scene, camera);
+                }
+                loop();
+
+            }
+
+            // ──────────────────────────────────────────────────
+            // GSAP ANIMATIONS
+            // ──────────────────────────────────────────────────
+            function initAnimations() {
+                gsap.registerPlugin(ScrollTrigger);
+
+                // Multi-language typewriter for hero
+                const heroEl = document.getElementById('hero-title');
+                if (heroEl) {
+                    const words = [
+                        'print("Hello World")',           // Python
+                        'console.log("Welcome")',         // JS
+                        'System.out.println("Hi")',       // Java
+                        'Console.WriteLine("Hey")',       // C#
+                    ];
+                    let wordIdx = 0;
+                    let charIdx = 0;
+                    let isDeleting = false;
+
+                    function tick() {
+                        const current = words[wordIdx];
+                        const displayed = [...current].slice(0, charIdx).join('');
+                        heroEl.textContent = displayed;
+
+                        if (!isDeleting) {
+                            // Typing
+                            if (charIdx < [...current].length) {
+                                charIdx++;
+                                setTimeout(tick, 90 + Math.random() * 50);
+                            } else {
+                                // Pause, then start deleting
+                                setTimeout(() => { isDeleting = true; tick(); }, 2200);
+                            }
+                        } else {
+                            // Deleting
+                            if (charIdx > 0) {
+                                charIdx--;
+                                setTimeout(tick, 40 + Math.random() * 25);
+                            } else {
+                                // Move to next word
+                                isDeleting = false;
+                                wordIdx = (wordIdx + 1) % words.length;
+                                setTimeout(tick, 400);
+                            }
+                        }
+                    }
+                    setTimeout(tick, 600);
+                }
+
+                // Project button entrance
+                gsap.from('#proj-wrap', {
+                    scrollTrigger: { trigger: '#proj-wrap', start: 'top 85%' },
+                    scale: 0, opacity: 0, duration: 0.8, ease: 'back.out(1.7)'
+                });
+
+                // Project button wobble
+                const btn = document.getElementById('proj-btn');
+                if (btn) {
+                    btn.addEventListener('mousemove', e => {
+                        const r = btn.getBoundingClientRect();
+                        gsap.to(btn, {
+                            rotateX: ((e.clientY - r.top - r.height / 2) / (r.height / 2)) * -6,
+                            rotateY: ((e.clientX - r.left - r.width / 2) / (r.width / 2)) * 6,
+                            transformPerspective: 500, duration: 0.3
+                        });
+                    });
+                    btn.addEventListener('mouseleave', () => {
+                        gsap.to(btn, { rotateX: 0, rotateY: 0, duration: 0.5, ease: 'elastic.out(1,0.4)' });
+                    });
+                }
+            }
+
+
+
+            // ──────────────────────────────────────────────────
+            // LIQUID TEXT EFFECT
+            // ──────────────────────────────────────────────────
+            function initLiquidText() {
+                const el = document.getElementById('ink-text');
+                if (!el) return;
+                const text = el.textContent.trim();
+                el.innerHTML = '';
+                const chars = [];
+                for (const ch of text) {
+                    const s = document.createElement('span');
+                    s.textContent = ch;
+                    s.style.display = 'inline-block';
+                    s.style.willChange = 'transform';
+                    s.style.transformOrigin = 'center bottom';
+                    el.appendChild(s);
+                    chars.push(s);
+                }
+                el.addEventListener('mousemove', e => {
+                    chars.forEach(sp => {
+                        const r = sp.getBoundingClientRect();
+                        const dx = e.clientX - (r.left + r.width / 2);
+                        const dy = e.clientY - (r.top + r.height / 2);
+                        const d = Math.sqrt(dx * dx + dy * dy);
+                        if (d < 110) {
+                            const t = 1 - d / 110;
+                            gsap.to(sp, { y: -t * 20, scaleX: 1 - t * .12, scaleY: 1 + t * .5, skewX: (dx > 0 ? 1 : -1) * t * 6, color: `hsl(${200 + t * 30},70%,${70 + t * 15}%)`, duration: .12, ease: 'power2.out', overwrite: 'auto' });
+                        } else {
+                            gsap.to(sp, { y: 0, scaleX: 1, scaleY: 1, skewX: 0, color: '', duration: .4, ease: 'elastic.out(1,0.4)', overwrite: 'auto' });
+                        }
+                    });
+                });
+                el.addEventListener('mouseleave', () => {
+                    chars.forEach(sp => gsap.to(sp, { y: 0, scaleX: 1, scaleY: 1, skewX: 0, color: '', duration: .5, ease: 'elastic.out(1,0.3)' }));
+                });
+            }
+
+
+
+            // ──────────────────────────────────────────────────
+            // INIT EVERYTHING
+            // ──────────────────────────────────────────────────
+            function init() {
+                console.log('🚀 Initializing retro portfolio...');
+                try {
+                    initStarfield();
+                    initAnimations();
+
+                    initLiquidText();
+
+                    console.log('✅ All systems go!');
+                } catch (e) {
+                    console.error('❌ Init error:', e);
+                }
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+        })();
+    </script>
+
+    <!-- ═══ FLOATING CV BUTTON ═══ -->
+    <a href="https://drive.google.com/file/d/1IaOGk7lJszWqdQL06B6aRS5VjN3A0GUL/view?usp=sharing" target="_blank"
+        rel="noopener noreferrer" class="floating-cv-btn" id="floating-cv">
+        <i class="fas fa-file-download"></i>
+        <span class="cv-label">Download CV</span>
+    </a>
 </body>
 
 </html>
